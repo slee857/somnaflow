@@ -16,9 +16,9 @@ export default function ProgressBar({ currentStep, totalSteps, labels }: Progres
       {/* Step dots */}
       <div className="flex items-center justify-between mb-3 relative">
         {/* Track line */}
-        <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-slate-200">
+        <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-gray-200">
           <motion.div
-            className="h-full bg-teal-500 rounded-full"
+            className="h-full bg-[#D97706] rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${percentage}%` }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -35,10 +35,10 @@ export default function ProgressBar({ currentStep, totalSteps, labels }: Progres
               <div
                 className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-300 ${
                   isCompleted
-                    ? "bg-teal-600 border-teal-600 text-white"
+                    ? "bg-[#D97706] border-[#D97706] text-white"
                     : isActive
-                    ? "bg-white border-teal-500 text-teal-600"
-                    : "bg-white border-slate-300 text-slate-400"
+                    ? "bg-white border-[#D97706] text-[#D97706]"
+                    : "bg-white border-gray-300 text-gray-400"
                 }`}
               >
                 {isCompleted ? "✓" : stepNum}
@@ -46,7 +46,7 @@ export default function ProgressBar({ currentStep, totalSteps, labels }: Progres
               {labels && (
                 <span
                   className={`absolute -bottom-5 text-xs whitespace-nowrap ${
-                    isActive ? "text-teal-600" : isCompleted ? "text-teal-500/70" : "text-slate-400"
+                    isActive ? "text-[#D97706]" : isCompleted ? "text-amber-500/70" : "text-gray-400"
                   }`}
                   style={{ transform: "translateX(-50%)", left: "50%" }}
                 >
@@ -60,10 +60,10 @@ export default function ProgressBar({ currentStep, totalSteps, labels }: Progres
 
       {/* Progress percentage */}
       <div className="flex items-center justify-between mt-8">
-        <span className="text-xs text-slate-400">
+        <span className="text-xs text-gray-400">
           Step {currentStep} of {totalSteps}
         </span>
-        <span className="text-xs text-teal-600 font-medium">
+        <span className="text-xs text-[#D97706] font-medium">
           {Math.round(percentage)}% complete
         </span>
       </div>

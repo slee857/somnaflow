@@ -32,15 +32,15 @@ export default function SleepQuestions({
           className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}
         >
           {msg.from === "ai" && (
-            <div className="w-8 h-8 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center mr-3 mt-1 shrink-0">
-              <MessageCircle className="w-4 h-4 text-teal-600" />
+            <div className="w-8 h-8 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center mr-3 mt-1 shrink-0">
+              <MessageCircle className="w-4 h-4 text-[#D97706]" />
             </div>
           )}
           <div
             className={`max-w-xs lg:max-w-md px-5 py-3.5 rounded-2xl text-sm leading-relaxed ${
               msg.from === "ai"
-                ? "bg-slate-100 text-slate-800 rounded-tl-none"
-                : "bg-teal-600 text-white font-medium rounded-tr-none"
+                ? "bg-gray-100 text-gray-800 rounded-tl-none"
+                : "bg-[#D97706] text-white font-medium rounded-tr-none"
             }`}
           >
             {msg.text}
@@ -55,15 +55,15 @@ export default function SleepQuestions({
           animate={{ opacity: 1, y: 0 }}
           className="flex justify-start"
         >
-          <div className="w-8 h-8 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center mr-3 shrink-0">
-            <MessageCircle className="w-4 h-4 text-teal-600" />
+          <div className="w-8 h-8 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center mr-3 shrink-0">
+            <MessageCircle className="w-4 h-4 text-[#D97706]" />
           </div>
-          <div className="bg-slate-100 px-5 py-3.5 rounded-2xl rounded-tl-none">
+          <div className="bg-gray-100 px-5 py-3.5 rounded-2xl rounded-tl-none">
             <div className="flex gap-1.5 items-center h-4">
               {[0, 1, 2].map((i) => (
                 <motion.span
                   key={i}
-                  className="w-2 h-2 rounded-full bg-teal-400"
+                  className="w-2 h-2 rounded-full bg-amber-400"
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15 }}
                 />
@@ -85,7 +85,7 @@ export default function SleepQuestions({
             <button
               key={option}
               onClick={() => onAnswer?.(option)}
-              className="px-4 py-2 bg-white hover:bg-teal-50 border border-slate-200 hover:border-teal-400 text-slate-700 hover:text-teal-700 text-sm rounded-lg transition-all duration-200 shadow-sm"
+              className="px-4 py-2 bg-white hover:bg-amber-50 border border-gray-200 hover:border-amber-300 text-gray-700 hover:text-[#D97706] text-sm rounded-lg transition-all duration-200 shadow-sm"
             >
               {option}
             </button>

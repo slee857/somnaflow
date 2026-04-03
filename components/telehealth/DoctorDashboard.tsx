@@ -48,7 +48,7 @@ export default function DoctorDashboard() {
       >
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center text-xl font-bold text-teal-700">
+            <div className="w-14 h-14 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-xl font-bold text-[#D97706]">
               {mockPatient.avatar}
             </div>
             <div>
@@ -123,8 +123,8 @@ export default function DoctorDashboard() {
         className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
       >
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-8 h-8 rounded-lg bg-teal-50 border border-teal-100 flex items-center justify-center">
-            <Pill className="w-4 h-4 text-teal-600" />
+          <div className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center">
+            <Pill className="w-4 h-4 text-[#D97706]" />
           </div>
           <h4 className="text-slate-900 font-semibold">Medication Selection</h4>
         </div>
@@ -136,19 +136,19 @@ export default function DoctorDashboard() {
               onClick={() => setSelectedMed(med.id)}
               className={`text-left p-4 rounded-xl border transition-all duration-200 ${
                 selectedMed === med.id
-                  ? "border-teal-400 bg-teal-50/50 shadow-sm"
+                  ? "border-amber-200 bg-amber-50/50 shadow-sm"
                   : "border-slate-200 hover:border-slate-300 bg-white"
               }`}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-teal-50 border border-teal-100 text-teal-700">
+                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-[#D97706]">
                   {med.id}
                 </span>
                 {selectedMed === med.id && (
-                  <CheckCircle className="w-4 h-4 text-teal-600" />
+                  <CheckCircle className="w-4 h-4 text-[#D97706]" />
                 )}
                 {med.id === mockPatient.recommendedMed && selectedMed !== med.id && (
-                  <span className="text-[10px] bg-teal-50 border border-teal-100 text-teal-600 px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] bg-amber-50 border border-amber-200 text-[#D97706] px-2 py-0.5 rounded-full">
                     AI Pick
                   </span>
                 )}
@@ -163,13 +163,13 @@ export default function DoctorDashboard() {
         {/* Selected med detail */}
         {recommendedMed && (
           <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
-            <p className="text-teal-700 text-xs font-semibold uppercase tracking-wide mb-3">
+            <p className="text-[#D97706] text-xs font-semibold uppercase tracking-wide mb-3">
               Benefits — {recommendedMed.name}
             </p>
             <div className="grid grid-cols-2 gap-2">
               {recommendedMed.benefits.map((b) => (
                 <div key={b} className="flex items-center gap-2 text-xs text-slate-600">
-                  <CheckCircle className="w-3.5 h-3.5 text-teal-500 shrink-0" />
+                  <CheckCircle className="w-3.5 h-3.5 text-[#D97706] shrink-0" />
                   {b}
                 </div>
               ))}
@@ -206,7 +206,7 @@ export default function DoctorDashboard() {
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="Add clinical notes, dosage instructions, follow-up recommendations..."
-                className="w-full bg-white border border-slate-200 focus:border-teal-400 focus:ring-2 focus:ring-teal-50 rounded-xl p-4 text-sm text-slate-700 placeholder-slate-400 resize-none h-28 outline-none transition-all"
+                className="w-full bg-white border border-slate-200 focus:border-amber-200 focus:ring-2 focus:ring-amber-50 rounded-xl p-4 text-sm text-slate-700 placeholder-slate-400 resize-none h-28 outline-none transition-all"
               />
             </motion.div>
           )}
@@ -221,7 +221,7 @@ export default function DoctorDashboard() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             onClick={() => setApproved(true)}
-            className="w-full flex items-center justify-center gap-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-4 rounded-2xl text-lg shadow-sm transition-colors"
+            className="w-full flex items-center justify-center gap-3 bg-[#D97706] hover:bg-[#D97706] text-white font-semibold py-4 rounded-2xl text-lg shadow-sm transition-colors"
           >
             <Send className="w-5 h-5" />
             Approve & Send Rx to Pharmacy

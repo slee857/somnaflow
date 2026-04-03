@@ -22,7 +22,7 @@ import VideoConsult from "@/components/telehealth/VideoConsult";
 
 const stats = [
   { label: "Pending Review", value: "7", icon: Clock, color: "text-amber-600", bg: "bg-amber-50 border-amber-100", change: "+2 new" },
-  { label: "Approved Today", value: "14", icon: CheckCircle, color: "text-teal-600", bg: "bg-teal-50 border-teal-100", change: "↑ 12% vs avg" },
+  { label: "Approved Today", value: "14", icon: CheckCircle, color: "text-[#D97706]", bg: "bg-amber-50 border-amber-200", change: "↑ 12% vs avg" },
   { label: "Active Patients", value: "342", icon: Users, color: "text-blue-600", bg: "bg-blue-50 border-blue-100", change: "+18 this week" },
 ];
 
@@ -75,11 +75,11 @@ export default function DashboardPage() {
         {/* Logo */}
         <div className="p-6 border-b border-slate-200">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-teal-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-[#D97706] flex items-center justify-center">
               <Moon className="w-4 h-4 text-white" strokeWidth={2.5} />
             </div>
             <span className="text-lg font-bold text-slate-900">
-              Somna<span className="text-teal-600">Flow</span>
+              Somna<span className="text-[#D97706]">Flow</span>
             </span>
           </Link>
           <div className="mt-3 flex items-center gap-2">
@@ -102,7 +102,7 @@ export default function DashboardPage() {
                 key={item.label}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
                   item.active
-                    ? "bg-teal-50 text-teal-700 border border-teal-100 font-medium"
+                    ? "bg-amber-50 text-amber-700 border border-amber-200 font-medium"
                     : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
                 }`}
               >
@@ -116,7 +116,7 @@ export default function DashboardPage() {
         {/* Doctor info */}
         <div className="p-4 border-t border-slate-200">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center font-bold text-sm text-teal-700">
+            <div className="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center font-bold text-sm text-amber-700">
               SC
             </div>
             <div className="flex-1 min-w-0">
@@ -192,7 +192,7 @@ export default function DashboardPage() {
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <input
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-50 transition-all"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-50 transition-all"
                       placeholder="Search patients..."
                     />
                   </div>
@@ -204,7 +204,7 @@ export default function DashboardPage() {
                       onClick={() => setSelectedPatient(patient)}
                       className={`w-full text-left p-4 hover:bg-slate-50 transition-colors ${
                         selectedPatient.id === patient.id
-                          ? "bg-teal-50/60 border-l-2 border-teal-500"
+                          ? "bg-amber-50/60 border-l-2 border-[#D97706]"
                           : ""
                       }`}
                     >
@@ -214,7 +214,7 @@ export default function DashboardPage() {
                           className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                             patient.status === "pending"
                               ? "bg-amber-50 text-amber-700 border border-amber-200"
-                              : "bg-teal-50 text-teal-700 border border-teal-200"
+                              : "bg-amber-50 text-amber-700 border border-amber-200"
                           }`}
                         >
                           {patient.status}
@@ -228,7 +228,7 @@ export default function DashboardPage() {
                               ? "text-red-500"
                               : patient.severity === "Moderate"
                               ? "text-amber-600"
-                              : "text-teal-600"
+                              : "text-[#D97706]"
                           }`}
                         >
                           {patient.severity}
@@ -239,7 +239,7 @@ export default function DashboardPage() {
                   ))}
                 </div>
                 <div className="p-3 text-center border-t border-slate-200">
-                  <button className="text-teal-600 text-xs hover:underline flex items-center gap-1 mx-auto">
+                  <button className="text-[#D97706] text-xs hover:underline flex items-center gap-1 mx-auto">
                     View all patients
                     <ChevronRight className="w-3 h-3" />
                   </button>
@@ -257,7 +257,7 @@ export default function DashboardPage() {
                     onClick={() => setActiveTab(tab)}
                     className={`flex-1 text-sm font-medium px-4 py-2.5 rounded-xl transition-all ${
                       activeTab === tab
-                        ? "bg-teal-50 text-teal-700 border border-teal-200 shadow-sm"
+                        ? "bg-amber-50 text-amber-700 border border-amber-200 shadow-sm"
                         : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
                     }`}
                   >

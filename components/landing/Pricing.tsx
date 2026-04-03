@@ -63,7 +63,7 @@ const options = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-24 lg:py-32 bg-white">
+    <section id="pricing" className="py-24 lg:py-32 bg-gray-50 border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -73,14 +73,14 @@ export default function Pricing() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-teal-600 font-semibold text-sm uppercase tracking-widest mb-4">
+          <span className="inline-block text-[#D97706] font-semibold text-xs uppercase tracking-widest mb-4">
             Pricing
           </span>
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+          <h2 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight mb-6">
             The smart choice is{" "}
-            <span className="text-teal-600">obvious</span>
+            <span className="text-[#D97706]">obvious</span>
           </h2>
-          <p className="text-slate-500 text-lg max-w-xl mx-auto">
+          <p className="text-gray-500 text-lg max-w-xl mx-auto">
             Compare your options. The math speaks for itself.
           </p>
         </motion.div>
@@ -94,19 +94,19 @@ export default function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`relative rounded-2xl p-7 border transition-all duration-300 ${
+              className={`relative rounded-lg p-7 border transition-all duration-300 ${
                 option.highlighted
-                  ? "border-2 border-teal-500 bg-teal-50/30 shadow-md scale-[1.02] lg:scale-[1.04]"
-                  : "border border-slate-200 bg-white shadow-sm"
+                  ? "border-2 border-[#D97706] bg-white shadow-lg shadow-amber-100 scale-[1.02] lg:scale-[1.04]"
+                  : "border border-gray-200 bg-white shadow-sm"
               }`}
             >
               {/* Tag */}
               {option.tag && (
                 <div
-                  className={`absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold ${
+                  className={`absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-sm text-xs font-bold ${
                     option.highlighted
-                      ? "bg-teal-600 text-white"
-                      : "bg-amber-100 text-amber-700 border border-amber-200"
+                      ? "bg-[#D97706] text-white"
+                      : "bg-gray-100 text-gray-500 border border-gray-200"
                   }`}
                 >
                   {option.tag}
@@ -115,12 +115,14 @@ export default function Pricing() {
 
               {/* Header */}
               <div className="mb-6">
-                <p className="text-slate-500 text-sm mb-1">{option.name}</p>
+                <p className="text-gray-400 text-sm mb-1">{option.name}</p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-slate-900">{option.price}</span>
-                  <span className="text-slate-400 text-sm">/{option.period.split(" ")[1] || option.period}</span>
+                  <span className={`text-4xl font-black ${option.highlighted ? "text-gray-900" : "text-gray-400"}`}>
+                    {option.price}
+                  </span>
+                  <span className="text-gray-400 text-sm">/{option.period.split(" ")[1] || option.period}</span>
                 </div>
-                <p className="text-xs text-slate-400 mt-1">{option.description}</p>
+                <p className="text-xs text-gray-400 mt-1">{option.description}</p>
               </div>
 
               {/* Features */}
@@ -128,21 +130,21 @@ export default function Pricing() {
                 {option.features.map((feature) => (
                   <li key={feature.text} className="flex items-start gap-3">
                     <span
-                      className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
+                      className={`w-5 h-5 rounded-sm flex items-center justify-center shrink-0 mt-0.5 ${
                         feature.included
-                          ? "bg-teal-50 border border-teal-200"
+                          ? "bg-amber-50 border border-amber-200"
                           : "bg-red-50 border border-red-100"
                       }`}
                     >
                       {feature.included ? (
-                        <Check className="w-3 h-3 text-teal-600" />
+                        <Check className="w-3 h-3 text-[#D97706]" />
                       ) : (
                         <X className="w-3 h-3 text-red-400" />
                       )}
                     </span>
                     <span
                       className={`text-sm leading-tight ${
-                        feature.included ? "text-slate-700" : "text-slate-400"
+                        feature.included ? "text-gray-900" : "text-gray-400"
                       }`}
                     >
                       {feature.text}
@@ -154,7 +156,7 @@ export default function Pricing() {
               {/* CTA */}
               {option.cta && (
                 <Link href="/checkout">
-                  <button className="w-full flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3.5 rounded-lg transition-colors shadow-sm">
+                  <button className="w-full flex items-center justify-center gap-2 bg-[#D97706] hover:bg-[#B45309] text-white font-bold py-3.5 rounded transition-colors">
                     {option.cta}
                   </button>
                 </Link>
@@ -168,7 +170,7 @@ export default function Pricing() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center text-slate-400 text-sm mt-8"
+          className="text-center text-gray-400 text-sm mt-8"
         >
           Cancel anytime. No contracts. First consultation is free.
         </motion.p>

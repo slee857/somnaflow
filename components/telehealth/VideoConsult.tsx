@@ -42,8 +42,8 @@ export default function VideoConsult({
         animate={{ opacity: 1 }}
         className="flex flex-col items-center justify-center py-16 gap-4"
       >
-        <div className="w-16 h-16 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center">
-          <Phone className="w-8 h-8 text-teal-600" />
+        <div className="w-16 h-16 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center">
+          <Phone className="w-8 h-8 text-[#D97706]" />
         </div>
         <h3 className="text-xl font-bold text-slate-900">Consultation Complete</h3>
         <p className="text-slate-500 text-sm text-center max-w-xs">
@@ -61,7 +61,7 @@ export default function VideoConsult({
         className="flex flex-col items-center gap-6 py-10 bg-white border border-slate-200 rounded-2xl shadow-sm"
       >
         <div className="relative w-24 h-24">
-          <div className="w-24 h-24 rounded-full bg-teal-50 border-2 border-teal-200 flex items-center justify-center text-3xl font-bold text-teal-700">
+          <div className="w-24 h-24 rounded-full bg-amber-50 border-2 border-amber-200 flex items-center justify-center text-3xl font-bold text-[#D97706]">
             SC
           </div>
           <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-white" />
@@ -76,7 +76,7 @@ export default function VideoConsult({
         </div>
         <button
           onClick={handleStart}
-          className="flex items-center gap-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-8 py-4 rounded-lg shadow-sm transition-colors"
+          className="flex items-center gap-3 bg-[#D97706] hover:bg-[#D97706] text-white font-semibold px-8 py-4 rounded-lg shadow-sm transition-colors"
         >
           <Video className="w-5 h-5" />
           Join Video Consultation
@@ -93,7 +93,7 @@ export default function VideoConsult({
         {/* Doctor avatar center */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-32 h-32 rounded-full bg-teal-900/50 border-2 border-teal-600/50 flex items-center justify-center text-4xl font-bold text-teal-300">
+            <div className="w-32 h-32 rounded-full bg-amber-900/50 border-2 border-amber-200/50 flex items-center justify-center text-4xl font-bold text-[#D97706]">
               SC
             </div>
             <div className="text-center">
@@ -136,8 +136,8 @@ export default function VideoConsult({
           >
             <p className="text-slate-900 text-sm font-semibold mb-3">Chat</p>
             <div className="flex-1 space-y-3 text-xs text-slate-600">
-              <div className="bg-teal-50 rounded-lg p-2 border border-teal-100">
-                <span className="text-teal-700 font-medium">Dr. Chen:</span> Hello! I&apos;ve reviewed your sleep intake summary. Let&apos;s discuss your options.
+              <div className="bg-amber-50 rounded-lg p-2 border border-amber-200">
+                <span className="text-[#D97706] font-medium">Dr. Chen:</span> Hello! I&apos;ve reviewed your sleep intake summary. Let&apos;s discuss your options.
               </div>
             </div>
           </motion.div>
@@ -179,7 +179,7 @@ export default function VideoConsult({
         <button
           onClick={() => setChatOpen(!chatOpen)}
           className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors ${
-            chatOpen ? "bg-teal-500/80" : "bg-white/20 hover:bg-white/30"
+            chatOpen ? "bg-amber-500/80" : "bg-white/20 hover:bg-white/30"
           }`}
         >
           <MessageSquare className="w-5 h-5 text-white" />

@@ -78,7 +78,7 @@ function Stars({ count }: { count: number }) {
 
 export default function Testimonials() {
   return (
-    <section className="py-24 lg:py-32 bg-slate-50 border-t border-slate-200 border-b">
+    <section className="py-24 lg:py-32 bg-white border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -88,16 +88,16 @@ export default function Testimonials() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-teal-600 font-semibold text-sm uppercase tracking-widest mb-4">
+          <span className="inline-block text-[#D97706] font-semibold text-xs uppercase tracking-widest mb-4">
             Patient Stories
           </span>
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+          <h2 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight mb-6">
             Real people, real results
           </h2>
           <div className="flex items-center justify-center gap-3">
             <Stars count={5} />
-            <span className="text-slate-900 font-semibold">4.9/5</span>
-            <span className="text-slate-500 text-sm">from 2,847 verified reviews</span>
+            <span className="text-gray-900 font-bold">4.9/5</span>
+            <span className="text-gray-400 text-sm">from 2,847 verified reviews</span>
           </div>
         </motion.div>
 
@@ -110,19 +110,19 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-teal-200 transition-all duration-300"
+              className="bg-white border border-gray-200 rounded-lg p-6 hover:border-[#D97706]/30 hover:shadow-md transition-all duration-300 shadow-sm"
             >
               {/* Stars */}
               <Stars count={t.rating} />
 
               {/* Quote */}
-              <p className="text-slate-600 text-sm leading-relaxed mt-4 mb-5">
+              <p className="text-gray-500 text-sm leading-relaxed mt-4 mb-5">
                 &ldquo;
                 {t.text.split(t.highlight).map((part, i) => {
                   if (i === 0) return <span key={i}>{part}</span>;
                   return (
                     <span key={i}>
-                      <span className="text-slate-900 font-semibold">{t.highlight}</span>
+                      <span className="text-gray-900 font-semibold">{t.highlight}</span>
                       {part}
                     </span>
                   );
@@ -131,21 +131,21 @@ export default function Testimonials() {
               </p>
 
               {/* Med badge */}
-              <div className="inline-flex items-center gap-1.5 bg-teal-50 border border-teal-100 rounded-full px-3 py-1 mb-5">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
-                <span className="text-teal-700 text-xs font-medium">{t.medication}</span>
+              <div className="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-sm px-3 py-1 mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
+                <span className="text-[#D97706] text-xs font-medium">{t.medication}</span>
               </div>
 
               {/* Author */}
-              <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
-                <div className="w-9 h-9 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center text-xs font-bold text-teal-700">
+              <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+                <div className="w-9 h-9 rounded bg-gray-100 border border-gray-200 flex items-center justify-center text-xs font-bold text-gray-500">
                   {t.avatar}
                 </div>
                 <div className="flex-1">
-                  <p className="text-slate-900 text-sm font-semibold">{t.name}</p>
-                  <p className="text-slate-400 text-xs">{t.title}</p>
+                  <p className="text-gray-900 text-sm font-semibold">{t.name}</p>
+                  <p className="text-gray-400 text-xs">{t.title}</p>
                 </div>
-                <span className="text-slate-400 text-xs">{t.time}</span>
+                <span className="text-gray-400 text-xs">{t.time}</span>
               </div>
             </motion.div>
           ))}

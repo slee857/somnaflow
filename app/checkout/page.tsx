@@ -35,9 +35,9 @@ export default function CheckoutPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 bg-teal-50 border border-teal-100 rounded-full px-4 py-2 mb-6">
-            <Shield className="w-4 h-4 text-teal-600" />
-            <span className="text-teal-700 text-sm font-medium">Secure Checkout</span>
+          <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-full px-4 py-2 mb-6">
+            <Shield className="w-4 h-4 text-[#D97706]" />
+            <span className="text-amber-700 text-sm font-medium">Secure Checkout</span>
           </div>
           <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
             Choose your plan
@@ -88,7 +88,7 @@ export default function CheckoutPage() {
               <ul className="space-y-3">
                 {sidebarPoints.map((point) => (
                   <li key={point} className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-teal-500 shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 text-[#D97706] shrink-0 mt-0.5" />
                     <span className="text-slate-600 text-sm">{point}</span>
                   </li>
                 ))}
@@ -107,7 +107,7 @@ export default function CheckoutPage() {
                 &ldquo;The physician called me within 90 minutes of signing up. My prescription arrived the next morning. This is the future of sleep medicine.&rdquo;
               </blockquote>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center text-xs font-bold text-teal-700">
+                <div className="w-8 h-8 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-xs font-bold text-amber-700">
                   TR
                 </div>
                 <div>
@@ -135,7 +135,7 @@ export default function CheckoutPage() {
 
             <p className="text-center text-slate-400 text-xs px-4">
               Already a member?{" "}
-              <Link href="/tracking" className="text-teal-600 hover:underline">
+              <Link href="/tracking" className="text-[#D97706] hover:underline">
                 Track your order
               </Link>
             </p>

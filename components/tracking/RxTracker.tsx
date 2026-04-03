@@ -44,7 +44,7 @@ export default function RxTracker() {
       {/* Timeline line */}
       <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-slate-200">
         <motion.div
-          className="w-full bg-teal-500 rounded-full"
+          className="w-full bg-amber-500 rounded-full"
           initial={{ height: 0 }}
           animate={{ height: "55%" }}
           transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
@@ -69,7 +69,7 @@ export default function RxTracker() {
               <div
                 className={`relative z-10 w-12 h-12 rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-300 ${
                   isCompleted
-                    ? "bg-teal-50 border-teal-400"
+                    ? "bg-amber-50 border-amber-200"
                     : isActive
                     ? "bg-blue-50 border-blue-400"
                     : "bg-white border-slate-200"
@@ -85,7 +85,7 @@ export default function RxTracker() {
                 ) : (
                   <Icon
                     className={`w-5 h-5 ${
-                      isCompleted ? "text-teal-600" : "text-slate-300"
+                      isCompleted ? "text-[#D97706]" : "text-slate-300"
                     }`}
                   />
                 )}
@@ -128,7 +128,7 @@ export default function RxTracker() {
                         </span>
                       )}
                       {isCompleted && (
-                        <CheckCircle className="w-4 h-4 text-teal-500" />
+                        <CheckCircle className="w-4 h-4 text-[#D97706]" />
                       )}
                     </div>
                     <p

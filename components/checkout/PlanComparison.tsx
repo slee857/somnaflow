@@ -70,12 +70,12 @@ export default function PlanComparison({ selectedPlan, onSelect }: PlanCompariso
           onClick={() => onSelect(plan.id)}
           className={`relative text-left p-5 rounded-2xl border transition-all duration-200 ${
             selectedPlan === plan.id
-              ? "border-2 border-teal-500 bg-teal-50/20 shadow-md"
+              ? "border-2 border-[#D97706] bg-amber-50/20 shadow-md"
               : "border border-slate-200 bg-white hover:border-slate-300 shadow-sm"
           }`}
         >
           {plan.popular && (
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-xs font-bold bg-teal-600 text-white">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-xs font-bold bg-[#D97706] text-white">
               Most Popular
             </div>
           )}
@@ -88,7 +88,7 @@ export default function PlanComparison({ selectedPlan, onSelect }: PlanCompariso
             <div
               className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                 selectedPlan === plan.id
-                  ? "bg-teal-600 border-teal-600"
+                  ? "bg-[#D97706] border-amber-200"
                   : "border-slate-300"
               }`}
             >
@@ -107,7 +107,7 @@ export default function PlanComparison({ selectedPlan, onSelect }: PlanCompariso
           <ul className="space-y-2">
             {plan.features.map((feature) => (
               <li key={feature} className="flex items-start gap-2 text-xs text-slate-500">
-                <Check className="w-3.5 h-3.5 shrink-0 mt-0.5 text-teal-500" />
+                <Check className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#D97706]" />
                 {feature}
               </li>
             ))}

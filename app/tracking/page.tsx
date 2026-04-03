@@ -52,8 +52,8 @@ export default function TrackingPage() {
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center">
-              <Package className="w-5 h-5 text-teal-600" />
+            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center">
+              <Package className="w-5 h-5 text-[#D97706]" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-slate-900">Track Your Rx</h1>
@@ -91,7 +91,7 @@ export default function TrackingPage() {
             </div>
             <div>
               <p className="text-slate-400 text-xs mb-1">Est. Arrival</p>
-              <p className="text-teal-600 text-sm font-semibold">Tomorrow by 8 PM</p>
+              <p className="text-[#D97706] text-sm font-semibold">Tomorrow by 8 PM</p>
             </div>
           </div>
         </motion.div>
@@ -105,7 +105,7 @@ export default function TrackingPage() {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-slate-900 font-semibold">Fulfillment Timeline</h2>
-            <button className="flex items-center gap-1.5 text-slate-400 hover:text-teal-600 text-xs transition-colors">
+            <button className="flex items-center gap-1.5 text-slate-400 hover:text-[#D97706] text-xs transition-colors">
               <RefreshCw className="w-3.5 h-3.5" />
               Refresh
             </button>
@@ -124,8 +124,8 @@ export default function TrackingPage() {
           <div className="space-y-5">
             {/* Shipping to — shows real address if entered */}
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-lg bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0 mt-0.5">
-                <MapPin className="w-4 h-4 text-teal-600" />
+              <div className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0 mt-0.5">
+                <MapPin className="w-4 h-4 text-[#D97706]" />
               </div>
               <div className="flex-1">
                 <p className="text-slate-400 text-xs uppercase tracking-wide font-semibold mb-1">
@@ -136,8 +136,8 @@ export default function TrackingPage() {
                 <p className="text-slate-500 text-sm">{displayLine2}</p>
                 {address && (
                   <div className="flex items-center gap-1.5 mt-2">
-                    <CheckCircle className="w-3.5 h-3.5 text-teal-500" />
-                    <span className="text-teal-600 text-xs font-medium">Address confirmed</span>
+                    <CheckCircle className="w-3.5 h-3.5 text-[#D97706]" />
+                    <span className="text-[#D97706] text-xs font-medium">Address confirmed</span>
                   </div>
                 )}
               </div>
@@ -153,7 +153,7 @@ export default function TrackingPage() {
                   Carrier
                 </p>
                 <p className="text-slate-900 text-sm font-medium">FedEx Priority Overnight</p>
-                <p className="text-teal-600 text-sm font-mono tracking-wide">794644790911</p>
+                <p className="text-[#D97706] text-sm font-mono tracking-wide">794644790911</p>
               </div>
             </div>
 
@@ -172,14 +172,14 @@ export default function TrackingPage() {
           className="space-y-4"
         >
           <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl p-4">
-            <div className="w-9 h-9 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0">
-              <Phone className="w-4 h-4 text-teal-600" />
+            <div className="w-9 h-9 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0">
+              <Phone className="w-4 h-4 text-[#D97706]" />
             </div>
             <div>
               <p className="text-slate-900 text-sm font-medium">Need help with your order?</p>
               <p className="text-slate-400 text-xs">Contact us 24/7 — response in under 5 minutes</p>
             </div>
-            <button className="ml-auto text-teal-600 text-sm font-medium hover:underline shrink-0">
+            <button className="ml-auto text-[#D97706] text-sm font-medium hover:underline shrink-0">
               Chat
             </button>
           </div>
@@ -191,7 +191,7 @@ export default function TrackingPage() {
               </button>
             </Link>
             <Link href="/" className="flex-1">
-              <button className="w-full py-3 bg-teal-50 border border-teal-200 hover:bg-teal-100 text-teal-700 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+              <button className="w-full py-3 bg-amber-50 border border-amber-200 hover:bg-[#D97706] text-amber-700 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
                 <Moon className="w-4 h-4" />
                 My Dashboard
               </button>

@@ -31,7 +31,7 @@ const smallBadges = [
 
 export default function TrustBadges() {
   return (
-    <section id="trust" className="py-24 lg:py-32 bg-white">
+    <section id="trust" className="py-24 lg:py-32 bg-gray-50 border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -41,14 +41,14 @@ export default function TrustBadges() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-teal-600 font-semibold text-sm uppercase tracking-widest mb-4">
+          <span className="inline-block text-[#D97706] font-semibold text-xs uppercase tracking-widest mb-4">
             Trust & Safety
           </span>
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+          <h2 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight mb-6">
             Medical-grade care,{" "}
-            <span className="text-teal-600">zero compromise</span>
+            <span className="text-[#D97706]">zero compromise</span>
           </h2>
-          <p className="text-slate-500 text-lg max-w-xl mx-auto">
+          <p className="text-gray-500 text-lg max-w-xl mx-auto">
             We hold ourselves to the highest clinical standards because your health depends on it.
           </p>
         </motion.div>
@@ -64,13 +64,13 @@ export default function TrustBadges() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.12 }}
-                className="group p-8 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-teal-200 transition-all duration-300 text-center"
+                className="group p-8 rounded-lg bg-white border border-gray-200 hover:border-[#D97706]/30 hover:shadow-md transition-all duration-300 text-center shadow-sm"
               >
-                <div className="w-16 h-16 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center mx-auto mb-5 group-hover:bg-teal-100 transition-colors">
-                  <Icon className="w-8 h-8 text-teal-600" />
+                <div className="w-14 h-14 rounded bg-amber-50 border border-amber-200 flex items-center justify-center mx-auto mb-5 group-hover:bg-amber-100 transition-colors">
+                  <Icon className="w-7 h-7 text-[#D97706]" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-3">{badge.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{badge.desc}</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-3">{badge.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{badge.desc}</p>
               </motion.div>
             );
           })}
@@ -89,10 +89,10 @@ export default function TrustBadges() {
             return (
               <div
                 key={badge.label}
-                className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-full shadow-sm"
+                className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-sm shadow-sm"
               >
-                <Icon className="w-4 h-4 text-teal-600" />
-                <span className="text-slate-600 text-sm font-medium">{badge.label}</span>
+                <Icon className="w-4 h-4 text-[#D97706]" />
+                <span className="text-gray-500 text-sm font-medium">{badge.label}</span>
               </div>
             );
           })}
@@ -104,23 +104,27 @@ export default function TrustBadges() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="rounded-3xl bg-slate-50 border border-slate-200 p-10 lg:p-14 text-center"
+          className="rounded-lg bg-white border border-gray-200 p-10 lg:p-14 text-center relative overflow-hidden shadow-sm"
         >
-          <h2 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-4">
-            Your best night&apos;s sleep
-            <br />
-            <span className="text-teal-600">starts tonight.</span>
-          </h2>
-          <p className="text-slate-500 text-lg mb-8 max-w-xl mx-auto">
-            Join 12,400+ patients who stopped settling for bad sleep. No waiting rooms. No insurance hassle. Just results.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/intake">
-              <button className="bg-teal-600 hover:bg-teal-700 text-white font-semibold text-lg px-10 py-4 rounded-lg shadow-sm transition-colors">
-                Start Your Free Consultation
-              </button>
-            </Link>
-            <p className="text-slate-400 text-sm">No credit card required to start</p>
+          {/* Glow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-50/60 via-transparent to-amber-50/30 pointer-events-none" />
+          <div className="relative">
+            <h2 className="text-3xl lg:text-5xl font-black text-gray-900 tracking-tight mb-4">
+              Your best night&apos;s sleep
+              <br />
+              <span className="text-[#D97706]">starts tonight.</span>
+            </h2>
+            <p className="text-gray-500 text-lg mb-8 max-w-xl mx-auto">
+              Join 12,400+ patients who stopped settling for bad sleep. No waiting rooms. No insurance hassle. Just results.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/intake">
+                <button className="bg-[#D97706] hover:bg-[#B45309] text-white font-bold text-lg px-10 py-4 rounded transition-colors">
+                  Start Your Free Consultation
+                </button>
+              </Link>
+              <p className="text-gray-400 text-sm">No credit card required to start</p>
+            </div>
           </div>
         </motion.div>
       </div>

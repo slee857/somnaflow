@@ -125,14 +125,14 @@ export default function IntakePage() {
               exit={{ opacity: 0, y: -30 }}
               className="text-center flex flex-col items-center gap-8 pt-8"
             >
-              <div className="w-20 h-20 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center">
-                <Moon className="w-10 h-10 text-teal-600" />
+              <div className="w-20 h-20 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center">
+                <Moon className="w-10 h-10 text-[#D97706]" />
               </div>
               <div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
                   Your Sleep Consultation
                 </h1>
-                <p className="text-slate-500 text-lg max-w-md mx-auto leading-relaxed">
+                <p className="text-gray-500 text-lg max-w-md mx-auto leading-relaxed">
                   Answer 4 quick questions. Our AI analyzes your sleep profile and generates a clinical summary for your physician.
                 </p>
               </div>
@@ -145,21 +145,21 @@ export default function IntakePage() {
                 ].map((stat) => (
                   <div
                     key={stat.label}
-                    className="bg-white border border-slate-200 rounded-xl p-4 text-center shadow-sm"
+                    className="bg-white border border-gray-200 rounded-xl p-4 text-center shadow-sm"
                   >
-                    <p className="text-teal-600 font-bold text-xl">{stat.value}</p>
-                    <p className="text-slate-400 text-xs mt-1">{stat.label}</p>
+                    <p className="text-[#D97706] font-bold text-xl">{stat.value}</p>
+                    <p className="text-gray-400 text-xs mt-1">{stat.label}</p>
                   </div>
                 ))}
               </div>
 
               <VoiceIntake onActivate={startIntake} isActive={false} />
 
-              <p className="text-slate-400 text-xs">
+              <p className="text-gray-400 text-xs">
                 Prefer text?{" "}
                 <button
                   onClick={startIntake}
-                  className="text-teal-600 hover:underline"
+                  className="text-[#D97706] hover:underline"
                 >
                   Use text questions instead
                 </button>
@@ -181,7 +181,7 @@ export default function IntakePage() {
               </div>
 
               {/* Chat bubbles */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 min-h-60">
+              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-5 min-h-60">
                 <SleepQuestions
                   messages={messages}
                   options={currentOptions}
@@ -203,19 +203,19 @@ export default function IntakePage() {
             >
               <div className="relative w-24 h-24">
                 <motion.div
-                  className="w-24 h-24 rounded-full border-4 border-transparent border-t-teal-500 border-r-teal-300"
+                  className="w-24 h-24 rounded-full border-4 border-transparent border-t-[#D97706] border-r-amber-300"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
                 />
               </div>
               <div className="text-center">
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Generating your clinical summary...</h3>
-                <p className="text-slate-400 text-sm">AI analyzing 47 data points</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Generating your clinical summary...</h3>
+                <p className="text-gray-400 text-sm">AI analyzing 47 data points</p>
               </div>
               <div className="w-full max-w-xs">
-                <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-teal-500 rounded-full"
+                    className="h-full bg-[#D97706] rounded-full"
                     initial={{ width: "10%" }}
                     animate={{ width: "95%" }}
                     transition={{ duration: 2.8, ease: "easeOut" }}
@@ -238,28 +238,28 @@ export default function IntakePage() {
                   <CheckCircle className="w-4 h-4 text-green-600" />
                   <span className="text-green-700 text-sm font-medium">Clinical Summary Ready</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Your Sleep Profile</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Your Sleep Profile</h2>
               </div>
 
               {/* Summary card */}
-              <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+              <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
                 {/* Header */}
-                <div className="bg-teal-50 border-b border-teal-100 p-5">
+                <div className="bg-amber-50 border-b border-amber-100 p-5">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-teal-700 text-xs font-bold uppercase tracking-wide">
+                    <span className="text-amber-700 text-xs font-bold uppercase tracking-wide">
                       AI Recommendation
                     </span>
-                    <span className="px-3 py-1 bg-teal-100 border border-teal-200 rounded-full text-teal-700 text-xs font-bold">
+                    <span className="px-3 py-1 bg-amber-100 border border-amber-200 rounded-full text-amber-700 text-xs font-bold">
                       {summaryData.confidence}% match
                     </span>
                   </div>
-                  <h3 className="text-slate-900 font-bold text-xl">{summaryData.recommendation}</h3>
-                  <p className="text-slate-500 text-sm mt-1">{summaryData.mechanism}</p>
+                  <h3 className="text-gray-900 font-bold text-xl">{summaryData.recommendation}</h3>
+                  <p className="text-gray-500 text-sm mt-1">{summaryData.mechanism}</p>
                 </div>
 
                 {/* Insights */}
                 <div className="p-5">
-                  <p className="text-slate-400 text-xs uppercase tracking-wide font-semibold mb-3">
+                  <p className="text-gray-400 text-xs uppercase tracking-wide font-semibold mb-3">
                     Key Insights
                   </p>
                   <ul className="space-y-3">
@@ -271,21 +271,21 @@ export default function IntakePage() {
                         transition={{ delay: i * 0.1 }}
                         className="flex items-start gap-3"
                       >
-                        <span className="w-5 h-5 rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center shrink-0 mt-0.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                        <span className="w-5 h-5 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0 mt-0.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
                         </span>
-                        <span className="text-slate-600 text-sm leading-relaxed">{insight}</span>
+                        <span className="text-gray-600 text-sm leading-relaxed">{insight}</span>
                       </motion.li>
                     ))}
                   </ul>
 
                   {/* Profile */}
-                  <div className="mt-5 pt-5 border-t border-slate-100">
+                  <div className="mt-5 pt-5 border-t border-gray-100">
                     <div className="flex items-center gap-3">
-                      <FileText className="w-4 h-4 text-slate-400" />
-                      <p className="text-slate-500 text-sm">
+                      <FileText className="w-4 h-4 text-gray-400" />
+                      <p className="text-gray-500 text-sm">
                         Sleep Profile:{" "}
-                        <span className="text-slate-900 font-medium">{summaryData.profile}</span>
+                        <span className="text-gray-900 font-medium">{summaryData.profile}</span>
                       </p>
                     </div>
                   </div>
@@ -300,13 +300,13 @@ export default function IntakePage() {
                 className="space-y-3"
               >
                 <Link href="/consult">
-                  <button className="w-full flex items-center justify-center gap-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-4 rounded-xl text-lg shadow-sm transition-colors">
+                  <button className="w-full flex items-center justify-center gap-3 bg-[#D97706] hover:bg-[#B45309] text-white font-semibold py-4 rounded-xl text-lg shadow-sm transition-colors">
                     Connect with a Licensed Physician
                     <ArrowRight className="w-5 h-5" />
                   </button>
                 </Link>
                 <Link href="/dashboard">
-                  <button className="w-full text-slate-400 hover:text-slate-600 text-sm py-2 transition-colors">
+                  <button className="w-full text-gray-400 hover:text-gray-600 text-sm py-2 transition-colors">
                     View Physician Dashboard →
                   </button>
                 </Link>

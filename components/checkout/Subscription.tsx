@@ -78,9 +78,9 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="w-20 h-20 rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center"
+          className="w-20 h-20 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center"
         >
-          <CheckCircle className="w-10 h-10 text-teal-600" />
+          <CheckCircle className="w-10 h-10 text-[#D97706]" />
         </motion.div>
 
         <div>
@@ -93,17 +93,17 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
         </div>
 
         {/* Delivery address confirmation */}
-        <div className="bg-teal-50 border border-teal-100 rounded-2xl p-5 w-full max-w-sm text-left">
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 w-full max-w-sm text-left">
           <div className="flex items-center gap-2 mb-3">
-            <Package className="w-4 h-4 text-teal-600" />
-            <p className="text-teal-800 font-semibold text-sm">Delivering to</p>
+            <Package className="w-4 h-4 text-[#D97706]" />
+            <p className="text-[#D97706] font-semibold text-sm">Delivering to</p>
           </div>
           <p className="text-slate-900 font-medium text-sm">{form.name}</p>
           <p className="text-slate-600 text-sm mt-0.5">{form.address1}{form.address2 ? `, ${form.address2}` : ""}</p>
           <p className="text-slate-600 text-sm">{form.city}, {form.state} {form.zip}</p>
-          <div className="mt-3 pt-3 border-t border-teal-100 flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
-            <p className="text-teal-700 text-xs font-medium">
+          <div className="mt-3 pt-3 border-t border-amber-200 flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            <p className="text-amber-700 text-xs font-medium">
               Estimated arrival: Tomorrow by 8 PM
             </p>
           </div>
@@ -119,7 +119,7 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
             "You receive a tracking number by email",
           ].map((stepText, i) => (
             <div key={i} className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center text-xs text-teal-600 font-bold shrink-0 mt-0.5">
+              <div className="w-6 h-6 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-xs text-[#D97706] font-bold shrink-0 mt-0.5">
                 {i + 1}
               </div>
               <span className="text-slate-600 text-sm leading-relaxed">{stepText}</span>
@@ -128,7 +128,7 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
         </div>
 
         <Link href="/tracking">
-          <button className="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors shadow-sm">
+          <button className="flex items-center gap-2 bg-[#D97706] hover:bg-[#D97706] text-white font-semibold px-6 py-3 rounded-lg transition-colors shadow-sm">
             Track My Order
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -138,7 +138,7 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
   }
 
   const inputClass =
-    "w-full bg-white border border-slate-200 focus:border-teal-400 focus:ring-2 focus:ring-teal-50 rounded-xl px-4 py-3 text-slate-900 text-sm placeholder-slate-400 outline-none transition-all";
+    "w-full bg-white border border-slate-200 focus:border-amber-200 focus:ring-2 focus:ring-amber-50 rounded-xl px-4 py-3 text-slate-900 text-sm placeholder-slate-400 outline-none transition-all";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-7">
@@ -154,11 +154,11 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
           </div>
           <div className="flex justify-between text-slate-600">
             <span>Physician consultation</span>
-            <span className="text-teal-600 font-medium">FREE</span>
+            <span className="text-[#D97706] font-medium">FREE</span>
           </div>
           <div className="flex justify-between text-slate-600">
             <span>Priority overnight shipping</span>
-            <span className="text-teal-600 font-medium">FREE</span>
+            <span className="text-[#D97706] font-medium">FREE</span>
           </div>
           <div className="border-t border-slate-200 pt-2 flex justify-between">
             <span className="text-slate-900 font-semibold">Total today</span>
@@ -199,7 +199,7 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
       {/* Shipping address */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <MapPin className="w-4 h-4 text-teal-600" />
+          <MapPin className="w-4 h-4 text-[#D97706]" />
           <h4 className="text-slate-900 font-semibold">Shipping Address</h4>
         </div>
         <div className="space-y-3">
@@ -331,15 +331,15 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
       {/* Trust row */}
       <div className="flex items-center justify-center gap-5 text-xs text-slate-400">
         <div className="flex items-center gap-1.5">
-          <Shield className="w-3.5 h-3.5 text-teal-500" />
+          <Shield className="w-3.5 h-3.5 text-[#D97706]" />
           HIPAA Secure
         </div>
         <div className="flex items-center gap-1.5">
-          <Lock className="w-3.5 h-3.5 text-teal-500" />
+          <Lock className="w-3.5 h-3.5 text-[#D97706]" />
           256-bit SSL
         </div>
         <div className="flex items-center gap-1.5">
-          <CheckCircle className="w-3.5 h-3.5 text-teal-500" />
+          <CheckCircle className="w-3.5 h-3.5 text-[#D97706]" />
           Cancel anytime
         </div>
       </div>
@@ -348,7 +348,7 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-teal-600 hover:bg-teal-700 disabled:opacity-70 text-white font-semibold py-4 rounded-xl text-lg shadow-sm transition-colors flex items-center justify-center gap-3"
+        className="w-full bg-[#D97706] hover:bg-[#D97706] disabled:opacity-70 text-white font-semibold py-4 rounded-xl text-lg shadow-sm transition-colors flex items-center justify-center gap-3"
       >
         <AnimatePresence mode="wait">
           {loading ? (

@@ -37,12 +37,12 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
         {isActive && !recording && (
           <>
             <motion.div
-              className="absolute w-32 h-32 rounded-full border border-teal-200"
+              className="absolute w-32 h-32 rounded-full border border-amber-200"
               animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             />
             <motion.div
-              className="absolute w-32 h-32 rounded-full border border-teal-100"
+              className="absolute w-32 h-32 rounded-full border border-amber-100"
               animate={{ scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }}
               transition={{ duration: 2.5, repeat: Infinity, delay: 0.4 }}
             />
@@ -69,8 +69,8 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
             recording
               ? "bg-red-500 hover:bg-red-600 text-white"
               : isActive
-              ? "bg-teal-600 hover:bg-teal-700 text-white animate-pulse-ring"
-              : "bg-white border border-slate-200 hover:border-teal-300 hover:bg-teal-50 text-slate-400 hover:text-teal-600"
+              ? "bg-[#D97706] hover:bg-[#B45309] text-white animate-pulse-ring"
+              : "bg-white border border-gray-200 hover:border-amber-300 hover:bg-amber-50 text-gray-400 hover:text-[#D97706]"
           }`}
         >
           {recording ? (
@@ -98,15 +98,15 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
           ) : isActive ? (
             <div className="flex flex-col items-center gap-1">
               <div className="flex items-center gap-2">
-                <Volume2 className="w-4 h-4 text-teal-600" />
-                <span className="text-teal-700 text-sm font-medium">Tap mic to answer</span>
+                <Volume2 className="w-4 h-4 text-[#D97706]" />
+                <span className="text-amber-700 text-sm font-medium">Tap mic to answer</span>
               </div>
-              <span className="text-slate-400 text-xs">or use the buttons below</span>
+              <span className="text-gray-400 text-xs">or use the buttons below</span>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-1">
-              <span className="text-slate-600 text-sm font-medium">Tap to start voice consultation</span>
-              <span className="text-slate-400 text-xs">Uses your microphone</span>
+              <span className="text-gray-600 text-sm font-medium">Tap to start voice consultation</span>
+              <span className="text-gray-400 text-xs">Uses your microphone</span>
             </div>
           )}
         </motion.div>
