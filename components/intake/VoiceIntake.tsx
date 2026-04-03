@@ -1,17 +1,30 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, MicOff, Volume2 } from "lucide-react";
 
 interface VoiceIntakeProps {
   onActivate: () => void;
   isActive: boolean;
+  disabled?: boolean;
+  onTranscript?: (text: string) => void;
 }
 
-export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) {
+export default function VoiceIntake({
+  onActivate,
+  isActive,
+  disabled = false,
+  onTranscript,
+}: VoiceIntakeProps) {
   const [recording, setRecording] = useState(false);
   const [volume, setVolume] = useState(0);
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const recorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
 
   useEffect(() => {
     if (!recording) return;
@@ -26,7 +39,86 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
       onActivate();
       return;
     }
-    setRecording(!recording);
+
+    if (disabled || isTranscribing) return;
+    setError(null);
+
+    if (recording) {
+      recorderRef.current?.stop();
+      setRecording(false);
+      return;
+    }
+
+    (async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        streamRef.current = stream;
+        const possibleTypes = [
+          "audio/mp4",
+          "audio/m4a",
+          "audio/webm;codecs=opus",
+          "audio/webm",
+          "audio/ogg;codecs=opus",
+          "audio/ogg",
+        ];
+        const supportedType = possibleTypes.find((t) => MediaRecorder.isTypeSupported(t));
+        const chosenMimeType = supportedType ?? "audio/webm";
+
+        const recorder = new MediaRecorder(stream, supportedType ? { mimeType: supportedType } : undefined);
+
+        chunksRef.current = [];
+        recorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) chunksRef.current.push(e.data);
+        };
+
+        recorder.onstop = async () => {
+          const chunks = chunksRef.current ?? [];
+          const blob = new Blob(chunks, { type: chosenMimeType });
+
+          // Stop camera/mic tracks promptly.
+          streamRef.current?.getTracks().forEach((t) => t.stop());
+          streamRef.current = null;
+
+          if (!blob.size) return;
+
+          setIsTranscribing(true);
+          try {
+            const ext = chosenMimeType.includes("mp4")
+              ? "mp4"
+              : chosenMimeType.includes("m4a")
+              ? "m4a"
+              : chosenMimeType.includes("ogg")
+              ? "ogg"
+              : "webm";
+            const form = new FormData();
+            form.append("audio", blob, `recording.${ext}`);
+            const res = await fetch("/api/transcribe", { method: "POST", body: form });
+            if (!res.ok) {
+              const err = await res.json().catch(() => ({}));
+              throw new Error(err?.error || "Transcription failed");
+            }
+            const data = await res.json();
+            const text: string = data.text?.trim() ?? "";
+            if (!text) {
+              setError("Couldn't detect speech. Try again.");
+              return;
+            }
+            onTranscript?.(text);
+          } catch (err) {
+            const message = err instanceof Error ? err.message : "Transcription failed. Try again.";
+            setError(message);
+          } finally {
+            setIsTranscribing(false);
+          }
+        };
+
+        recorderRef.current = recorder;
+        recorder.start();
+        setRecording(true);
+      } catch {
+        setError("Microphone permission required.");
+      }
+    })();
   };
 
   return (
@@ -84,7 +176,17 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
       {/* Status text */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={recording ? "recording" : isActive ? "active" : "idle"}
+          key={
+            recording
+              ? "recording"
+              : isTranscribing
+              ? "transcribing"
+              : error
+              ? "error"
+              : isActive
+              ? "active"
+              : "idle"
+          }
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -5 }}
@@ -94,6 +196,16 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
               <span className="text-red-500 text-sm font-medium">Recording... tap to stop</span>
+            </div>
+          ) : isTranscribing ? (
+            <div className="flex items-center gap-2 text-[#D97706]">
+              <span className="w-2 h-2 rounded-full bg-[#D97706] animate-pulse" />
+              <span className="text-[#D97706] text-sm font-medium">Transcribing…</span>
+            </div>
+          ) : error ? (
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-red-500 text-sm font-medium">{error}</span>
+              <span className="text-gray-400 text-xs">Tap mic to retry.</span>
             </div>
           ) : isActive ? (
             <div className="flex flex-col items-center gap-1">

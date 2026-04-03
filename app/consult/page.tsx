@@ -73,6 +73,7 @@ export default function ConsultPage() {
   const [rxType, setRxType] = useState<"onset" | "maintenance">("onset");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [muteAudio, setMuteAudio] = useState(false);
+  const [intakeSeed, setIntakeSeed] = useState<string | null>(null);
 
   // Voice recording
   const [isRecording, setIsRecording] = useState(false);
@@ -85,6 +86,27 @@ export default function ConsultPage() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [displayMsgs, isTyping]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("somnaflow.intakeSummary");
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as {
+        answers?: string[];
+        recommendation?: string;
+        mechanism?: string;
+        confidence?: number;
+        profile?: string;
+      };
+      const answers = parsed.answers ?? [];
+      const answersText = Array.isArray(answers) ? answers.join("\n") : String(answers);
+      const summaryText = `AI summary: ${parsed.recommendation ?? ""} | ${parsed.mechanism ?? ""} (${parsed.confidence ?? ""}% confidence) | Profile: ${parsed.profile ?? ""}`.trim();
+      const seed = `Intake answers (voice transcription + user responses):\n${answersText}\n\n${summaryText}`.trim();
+      setIntakeSeed(seed);
+    } catch {
+      // Ignore localStorage failures
+    }
+  }, []);
 
   // Stage auto-advance
   useEffect(() => {
@@ -133,13 +155,25 @@ export default function ConsultPage() {
   }, [speakText]);
 
   const sendDoctorOpener = useCallback(async () => {
-    const opener = "Hello! I'm Dr. Chen. I've reviewed your intake summary. Before I finalize your prescription, I'd like to ask you a few clinical questions. First — how long have you been having trouble sleeping? Is this something that's been going on for weeks, months, or longer?";
+    if (intakeSeed) {
+      const seedUser: ChatMsg = { role: "user", content: intakeSeed };
+      // Small pause to feel like a connection.
+      setIsTyping(true);
+      await new Promise((r) => setTimeout(r, 900));
+      setIsTyping(false);
+      setMessages([seedUser]);
+      await callDoctorAPI([seedUser]);
+      return;
+    }
+
+    const opener =
+      "Hello! I'm Dr. Chen. I've reviewed your intake summary. Before I finalize your prescription, I'd like to ask you a few clinical questions. First — how long have you been having trouble sleeping? Is this something that's been going on for weeks, months, or longer?";
     setIsTyping(true);
     await new Promise((r) => setTimeout(r, 1500));
     setIsTyping(false);
     addDoctorMessage(opener);
     setMessages([{ role: "assistant", content: opener }]);
-  }, [addDoctorMessage]);
+  }, [addDoctorMessage, intakeSeed]);
 
   const callDoctorAPI = useCallback(async (updatedMessages: ChatMsg[]) => {
     setIsLoading(true);

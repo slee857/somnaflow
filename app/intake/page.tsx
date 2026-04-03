@@ -56,6 +56,33 @@ export default function IntakePage() {
   const [generating, setGenerating] = useState(false);
   const [generatingDone, setGeneratingDone] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const messagesRef = useRef<Message[]>([]);
+  const qaIndexRef = useRef<number>(qaIndex);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  useEffect(() => {
+    qaIndexRef.current = qaIndex;
+  }, [qaIndex]);
+
+  useEffect(() => {
+    if (step !== 6 || !generatingDone) return;
+    try {
+      const userAnswers = messages.filter((m) => m.from === "user").map((m) => m.text);
+      const payload = {
+        answers: userAnswers,
+        recommendation: summaryData.recommendation,
+        mechanism: summaryData.mechanism,
+        confidence: summaryData.confidence,
+        profile: summaryData.profile,
+      };
+      localStorage.setItem("somnaflow.intakeSummary", JSON.stringify(payload));
+    } catch {
+      // Ignore localStorage failures (private mode, etc.)
+    }
+  }, [generatingDone, messages, step]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -72,16 +99,31 @@ export default function IntakePage() {
   };
 
   const handleAnswer = (answer: string) => {
-    const newMessages: Message[] = [...messages, { from: "user", text: answer }];
+    const trimmed = answer.trim();
+    if (!trimmed) return;
+
+    const newMessages: Message[] = [
+      ...messagesRef.current,
+      { from: "user", text: trimmed },
+    ];
+    messagesRef.current = newMessages;
     setMessages(newMessages);
-    const nextIndex = qaIndex + 1;
+
+    const nextIndex = qaIndexRef.current + 1;
 
     if (nextIndex < qaFlow.length) {
       setQaIndex(nextIndex);
       setIsTyping(true);
       setTimeout(() => {
         setIsTyping(false);
-        setMessages((prev) => [...prev, { from: "ai", text: qaFlow[nextIndex].question }]);
+        setMessages((prev: Message[]) => {
+          const updated: Message[] = [
+            ...prev,
+            { from: "ai", text: qaFlow[nextIndex].question },
+          ];
+          messagesRef.current = updated;
+          return updated;
+        });
         setStep((prev) => (prev < 5 ? ((prev + 1) as Step) : prev));
       }, 1000);
     } else {
@@ -177,7 +219,12 @@ export default function IntakePage() {
             >
               {/* Voice control */}
               <div className="flex justify-center mb-2">
-                <VoiceIntake onActivate={() => {}} isActive={voiceActive} />
+                <VoiceIntake
+                  onActivate={() => {}}
+                  isActive={voiceActive}
+                  disabled={isTyping}
+                  onTranscript={(text) => handleAnswer(text)}
+                />
               </div>
 
               {/* Chat bubbles */}
