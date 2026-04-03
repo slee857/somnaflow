@@ -8,8 +8,10 @@ import {
   Shield,
   CheckCircle,
   ChevronRight,
-  Sparkles,
+  MapPin,
+  Package,
 } from "lucide-react";
+import Link from "next/link";
 
 interface SubscriptionProps {
   selectedPlan: string;
@@ -17,157 +19,274 @@ interface SubscriptionProps {
 }
 
 export default function Subscription({ selectedPlan, planPrice }: SubscriptionProps) {
-  const [step, setStep] = useState<"details" | "payment" | "success">("details");
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
+    address1: "",
+    address2: "",
+    city: "",
+    state: "",
+    zip: "",
     card: "",
     expiry: "",
     cvv: "",
-    zip: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    // Save address to sessionStorage so tracking page can read it
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(
+        "somnaflow_address",
+        JSON.stringify({
+          name: form.name,
+          address1: form.address1,
+          address2: form.address2,
+          city: form.city,
+          state: form.state,
+          zip: form.zip,
+        })
+      );
+    }
     setTimeout(() => {
       setLoading(false);
-      setStep("success");
+      setSuccess(true);
     }, 2200);
   };
 
-  const formatCard = (val: string) => {
-    return val
-      .replace(/\D/g, "")
-      .substring(0, 16)
-      .replace(/(.{4})/g, "$1 ")
-      .trim();
-  };
+  const formatCard = (val: string) =>
+    val.replace(/\D/g, "").substring(0, 16).replace(/(.{4})/g, "$1 ").trim();
 
-  const formatExpiry = (val: string) => {
-    return val
-      .replace(/\D/g, "")
-      .substring(0, 4)
-      .replace(/^(\d{2})(\d)/, "$1/$2");
-  };
+  const formatExpiry = (val: string) =>
+    val.replace(/\D/g, "").substring(0, 4).replace(/^(\d{2})(\d)/, "$1/$2");
 
-  if (step === "success") {
+  if (success) {
+    const addr = form.address1
+      ? `${form.address1}${form.address2 ? ` ${form.address2}` : ""}, ${form.city}, ${form.state} ${form.zip}`
+      : "your address";
+
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center py-12 flex flex-col items-center gap-5"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="text-center py-10 flex flex-col items-center gap-6"
       >
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="w-20 h-20 rounded-full bg-[#4ECDC4]/20 border border-[#4ECDC4]/40 flex items-center justify-center"
+          className="w-20 h-20 rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center"
         >
-          <CheckCircle className="w-10 h-10 text-[#4ECDC4]" />
+          <CheckCircle className="w-10 h-10 text-teal-600" />
         </motion.div>
+
         <div>
-          <h3 className="text-2xl font-bold text-white mb-2">You&apos;re in! Welcome to SomnaFlow</h3>
-          <p className="text-[#94A3B8] max-w-xs mx-auto">
-            Your consultation has been scheduled. Check your email for next steps and physician assignment.
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">
+            You&apos;re in! Welcome to SomnaFlow
+          </h3>
+          <p className="text-slate-500 max-w-xs mx-auto text-sm">
+            Your prescription has been sent to the compounding pharmacy.
           </p>
         </div>
-        <div className="bg-[#1A2540] border border-[#2A3550] rounded-xl p-5 w-full max-w-sm text-left space-y-3">
-          <p className="text-white font-semibold text-sm">What happens next:</p>
+
+        {/* Delivery address confirmation */}
+        <div className="bg-teal-50 border border-teal-100 rounded-2xl p-5 w-full max-w-sm text-left">
+          <div className="flex items-center gap-2 mb-3">
+            <Package className="w-4 h-4 text-teal-600" />
+            <p className="text-teal-800 font-semibold text-sm">Delivering to</p>
+          </div>
+          <p className="text-slate-900 font-medium text-sm">{form.name}</p>
+          <p className="text-slate-600 text-sm mt-0.5">{form.address1}{form.address2 ? `, ${form.address2}` : ""}</p>
+          <p className="text-slate-600 text-sm">{form.city}, {form.state} {form.zip}</p>
+          <div className="mt-3 pt-3 border-t border-teal-100 flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
+            <p className="text-teal-700 text-xs font-medium">
+              Estimated arrival: Tomorrow by 8 PM
+            </p>
+          </div>
+        </div>
+
+        {/* Next steps */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 w-full max-w-sm text-left space-y-3 shadow-sm">
+          <p className="text-slate-900 font-semibold text-sm">What happens next:</p>
           {[
-            "Check your email for consultation link",
-            "Physician reviews your intake (< 2hr)",
-            "Rx sent to pharmacy same day",
-            "Delivery within 24 hours",
-          ].map((step, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-full bg-[#4ECDC4]/20 border border-[#4ECDC4]/30 flex items-center justify-center text-xs text-[#4ECDC4] font-bold">
+            "Prescription sent to MedFlow Rx pharmacy",
+            "Pharmacist quality review (1–2 hrs)",
+            `Shipped via FedEx Priority to ${addr}`,
+            "You receive a tracking number by email",
+          ].map((stepText, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center text-xs text-teal-600 font-bold shrink-0 mt-0.5">
                 {i + 1}
               </div>
-              <span className="text-[#94A3B8] text-sm">{step}</span>
+              <span className="text-slate-600 text-sm leading-relaxed">{stepText}</span>
             </div>
           ))}
         </div>
-        <a href="/tracking">
-          <button className="flex items-center gap-2 bg-[#4ECDC4] text-[#0B1120] font-bold px-6 py-3 rounded-full hover:bg-[#3DBDB4] transition-colors">
+
+        <Link href="/tracking">
+          <button className="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors shadow-sm">
             Track My Order
             <ChevronRight className="w-4 h-4" />
           </button>
-        </a>
+        </Link>
       </motion.div>
     );
   }
 
+  const inputClass =
+    "w-full bg-white border border-slate-200 focus:border-teal-400 focus:ring-2 focus:ring-teal-50 rounded-xl px-4 py-3 text-slate-900 text-sm placeholder-slate-400 outline-none transition-all";
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-7">
       {/* Order summary */}
-      <div className="bg-[#0B1120]/50 border border-[#2A3550] rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-white font-semibold">Order Summary</span>
-          <Sparkles className="w-4 h-4 text-[#4ECDC4]" />
-        </div>
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
+        <p className="text-slate-900 font-semibold mb-3">Order Summary</p>
         <div className="space-y-2 text-sm">
-          <div className="flex justify-between text-[#94A3B8]">
-            <span>SomnaFlow {selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan</span>
-            <span className="text-white font-medium">${planPrice}/mo</span>
+          <div className="flex justify-between text-slate-600">
+            <span>
+              SomnaFlow {selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan
+            </span>
+            <span className="text-slate-900 font-medium">${planPrice}/mo</span>
           </div>
-          <div className="flex justify-between text-[#94A3B8]">
+          <div className="flex justify-between text-slate-600">
             <span>Physician consultation</span>
-            <span className="text-[#4ECDC4] font-medium">FREE</span>
+            <span className="text-teal-600 font-medium">FREE</span>
           </div>
-          <div className="flex justify-between text-[#94A3B8]">
-            <span>2-day shipping</span>
-            <span className="text-[#4ECDC4] font-medium">FREE</span>
+          <div className="flex justify-between text-slate-600">
+            <span>Priority overnight shipping</span>
+            <span className="text-teal-600 font-medium">FREE</span>
           </div>
-          <div className="border-t border-[#2A3550] pt-2 flex justify-between">
-            <span className="text-white font-semibold">Total today</span>
-            <span className="text-white font-bold">${planPrice}</span>
+          <div className="border-t border-slate-200 pt-2 flex justify-between">
+            <span className="text-slate-900 font-semibold">Total today</span>
+            <span className="text-slate-900 font-bold">${planPrice}</span>
           </div>
         </div>
       </div>
 
-      {/* Personal details */}
+      {/* Personal info */}
       <div>
-        <h4 className="text-white font-semibold mb-4">Personal Information</h4>
+        <h4 className="text-slate-900 font-semibold mb-4">Personal Information</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="text-[#64748B] text-xs font-medium block mb-1.5">Full Name</label>
+            <label className="text-slate-500 text-xs font-medium block mb-1.5">Full Name</label>
             <input
               required
               type="text"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Alex Johnson"
-              className="w-full bg-[#1A2540] border border-[#2A3550] focus:border-[#4ECDC4]/50 rounded-xl px-4 py-3 text-white text-sm placeholder-[#475569] outline-none transition-colors"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="text-[#64748B] text-xs font-medium block mb-1.5">Email Address</label>
+            <label className="text-slate-500 text-xs font-medium block mb-1.5">Email Address</label>
             <input
               required
               type="email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="alex@email.com"
-              className="w-full bg-[#1A2540] border border-[#2A3550] focus:border-[#4ECDC4]/50 rounded-xl px-4 py-3 text-white text-sm placeholder-[#475569] outline-none transition-colors"
+              className={inputClass}
             />
           </div>
         </div>
       </div>
 
+      {/* Shipping address */}
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <MapPin className="w-4 h-4 text-teal-600" />
+          <h4 className="text-slate-900 font-semibold">Shipping Address</h4>
+        </div>
+        <div className="space-y-3">
+          <div>
+            <label className="text-slate-500 text-xs font-medium block mb-1.5">
+              Street Address
+            </label>
+            <input
+              required
+              type="text"
+              value={form.address1}
+              onChange={(e) => setForm({ ...form, address1: e.target.value })}
+              placeholder="123 Main Street"
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label className="text-slate-500 text-xs font-medium block mb-1.5">
+              Apt / Suite / Unit{" "}
+              <span className="text-slate-400 font-normal">(optional)</span>
+            </label>
+            <input
+              type="text"
+              value={form.address2}
+              onChange={(e) => setForm({ ...form, address2: e.target.value })}
+              placeholder="Apt 4B"
+              className={inputClass}
+            />
+          </div>
+          <div className="grid grid-cols-6 gap-3">
+            <div className="col-span-3">
+              <label className="text-slate-500 text-xs font-medium block mb-1.5">City</label>
+              <input
+                required
+                type="text"
+                value={form.city}
+                onChange={(e) => setForm({ ...form, city: e.target.value })}
+                placeholder="New York"
+                className={inputClass}
+              />
+            </div>
+            <div className="col-span-1">
+              <label className="text-slate-500 text-xs font-medium block mb-1.5">State</label>
+              <input
+                required
+                type="text"
+                value={form.state}
+                onChange={(e) =>
+                  setForm({ ...form, state: e.target.value.toUpperCase().substring(0, 2) })
+                }
+                placeholder="NY"
+                className={inputClass}
+              />
+            </div>
+            <div className="col-span-2">
+              <label className="text-slate-500 text-xs font-medium block mb-1.5">ZIP</label>
+              <input
+                required
+                type="text"
+                value={form.zip}
+                onChange={(e) =>
+                  setForm({ ...form, zip: e.target.value.replace(/\D/g, "").substring(0, 5) })
+                }
+                placeholder="10001"
+                className={`${inputClass} font-mono`}
+              />
+            </div>
+          </div>
+        </div>
+        <p className="text-slate-400 text-xs mt-2 flex items-center gap-1.5">
+          <Package className="w-3.5 h-3.5" />
+          Delivered via FedEx Priority Overnight in discreet, unmarked packaging
+        </p>
+      </div>
+
       {/* Payment */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <h4 className="text-white font-semibold">Payment Information</h4>
-          <div className="flex items-center gap-1 text-[#64748B] text-xs">
+          <h4 className="text-slate-900 font-semibold">Payment Information</h4>
+          <div className="flex items-center gap-1 text-slate-400 text-xs">
             <Lock className="w-3.5 h-3.5" />
             <span>256-bit SSL</span>
           </div>
         </div>
         <div className="space-y-4">
           <div>
-            <label className="text-[#64748B] text-xs font-medium block mb-1.5">Card Number</label>
+            <label className="text-slate-500 text-xs font-medium block mb-1.5">Card Number</label>
             <div className="relative">
               <input
                 required
@@ -175,72 +294,61 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
                 value={form.card}
                 onChange={(e) => setForm({ ...form, card: formatCard(e.target.value) })}
                 placeholder="1234 5678 9012 3456"
-                className="w-full bg-[#1A2540] border border-[#2A3550] focus:border-[#4ECDC4]/50 rounded-xl px-4 py-3 pr-12 text-white text-sm placeholder-[#475569] outline-none transition-colors font-mono tracking-wider"
+                className={`${inputClass} pr-12 font-mono tracking-wider`}
               />
-              <CreditCard className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#475569]" />
+              <CreditCard className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1">
-              <label className="text-[#64748B] text-xs font-medium block mb-1.5">Expiry</label>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-slate-500 text-xs font-medium block mb-1.5">Expiry</label>
               <input
                 required
                 type="text"
                 value={form.expiry}
                 onChange={(e) => setForm({ ...form, expiry: formatExpiry(e.target.value) })}
                 placeholder="MM/YY"
-                className="w-full bg-[#1A2540] border border-[#2A3550] focus:border-[#4ECDC4]/50 rounded-xl px-4 py-3 text-white text-sm placeholder-[#475569] outline-none transition-colors font-mono"
+                className={`${inputClass} font-mono`}
               />
             </div>
-            <div className="col-span-1">
-              <label className="text-[#64748B] text-xs font-medium block mb-1.5">CVV</label>
+            <div>
+              <label className="text-slate-500 text-xs font-medium block mb-1.5">CVV</label>
               <input
                 required
                 type="text"
                 value={form.cvv}
-                onChange={(e) => setForm({ ...form, cvv: e.target.value.replace(/\D/g, "").substring(0, 4) })}
+                onChange={(e) =>
+                  setForm({ ...form, cvv: e.target.value.replace(/\D/g, "").substring(0, 4) })
+                }
                 placeholder="123"
-                className="w-full bg-[#1A2540] border border-[#2A3550] focus:border-[#4ECDC4]/50 rounded-xl px-4 py-3 text-white text-sm placeholder-[#475569] outline-none transition-colors font-mono"
-              />
-            </div>
-            <div className="col-span-1">
-              <label className="text-[#64748B] text-xs font-medium block mb-1.5">ZIP</label>
-              <input
-                required
-                type="text"
-                value={form.zip}
-                onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "").substring(0, 5) })}
-                placeholder="10001"
-                className="w-full bg-[#1A2540] border border-[#2A3550] focus:border-[#4ECDC4]/50 rounded-xl px-4 py-3 text-white text-sm placeholder-[#475569] outline-none transition-colors font-mono"
+                className={`${inputClass} font-mono`}
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Trust */}
-      <div className="flex items-center justify-center gap-4 text-xs text-[#475569]">
+      {/* Trust row */}
+      <div className="flex items-center justify-center gap-5 text-xs text-slate-400">
         <div className="flex items-center gap-1.5">
-          <Shield className="w-3.5 h-3.5 text-[#4ECDC4]" />
-          <span>HIPAA Secure</span>
+          <Shield className="w-3.5 h-3.5 text-teal-500" />
+          HIPAA Secure
         </div>
         <div className="flex items-center gap-1.5">
-          <Lock className="w-3.5 h-3.5 text-[#4ECDC4]" />
-          <span>256-bit SSL</span>
+          <Lock className="w-3.5 h-3.5 text-teal-500" />
+          256-bit SSL
         </div>
         <div className="flex items-center gap-1.5">
-          <CheckCircle className="w-3.5 h-3.5 text-[#4ECDC4]" />
-          <span>Cancel anytime</span>
+          <CheckCircle className="w-3.5 h-3.5 text-teal-500" />
+          Cancel anytime
         </div>
       </div>
 
       {/* Submit */}
-      <motion.button
+      <button
         type="submit"
         disabled={loading}
-        whileHover={!loading ? { scale: 1.02 } : {}}
-        whileTap={!loading ? { scale: 0.98 } : {}}
-        className="w-full bg-[#4ECDC4] hover:bg-[#3DBDB4] disabled:opacity-70 text-[#0B1120] font-bold py-4 rounded-2xl text-lg shadow-xl shadow-[#4ECDC4]/25 transition-all flex items-center justify-center gap-3"
+        className="w-full bg-teal-600 hover:bg-teal-700 disabled:opacity-70 text-white font-semibold py-4 rounded-xl text-lg shadow-sm transition-colors flex items-center justify-center gap-3"
       >
         <AnimatePresence mode="wait">
           {loading ? (
@@ -251,8 +359,8 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
               exit={{ opacity: 0 }}
               className="flex items-center gap-3"
             >
-              <div className="w-5 h-5 border-2 border-[#0B1120]/30 border-t-[#0B1120] rounded-full animate-spin" />
-              Processing securely...
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              Processing securely…
             </motion.div>
           ) : (
             <motion.div
@@ -263,13 +371,13 @@ export default function Subscription({ selectedPlan, planPrice }: SubscriptionPr
               className="flex items-center gap-2"
             >
               <Lock className="w-5 h-5" />
-              Start SomnaFlow — ${planPrice}/mo
+              Complete Order — ${planPrice}/mo
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.button>
+      </button>
 
-      <p className="text-center text-[#475569] text-xs">
+      <p className="text-center text-slate-400 text-xs">
         By subscribing you agree to our Terms of Service and Privacy Policy. Cancel anytime.
       </p>
     </form>

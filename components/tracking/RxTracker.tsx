@@ -11,7 +11,6 @@ const steps = [
     title: "Prescription Approved",
     detail: "Dr. Sarah Chen, MD",
     timestamp: "Today, 2:31 PM",
-    color: "#4ECDC4",
   },
   {
     id: 2,
@@ -20,7 +19,6 @@ const steps = [
     title: "Sent to Compounding Pharmacy",
     detail: "MedFlow Rx — Dallas, TX",
     timestamp: "Today, 2:34 PM",
-    color: "#4ECDC4",
   },
   {
     id: 3,
@@ -29,7 +27,6 @@ const steps = [
     title: "Pharmacist Quality Review",
     detail: "In progress — Final quality check",
     timestamp: "Est. completion: Today, 4:00 PM",
-    color: "#6B8AFF",
   },
   {
     id: 4,
@@ -38,7 +35,6 @@ const steps = [
     title: "Shipped to Your Door",
     detail: "FedEx Priority Overnight",
     timestamp: "ETA: Tomorrow by 8 PM",
-    color: "#475569",
   },
 ];
 
@@ -46,9 +42,9 @@ export default function RxTracker() {
   return (
     <div className="relative">
       {/* Timeline line */}
-      <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-[#2A3550]">
+      <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-slate-200">
         <motion.div
-          className="w-full bg-gradient-to-b from-[#4ECDC4] to-[#6B8AFF] rounded-full"
+          className="w-full bg-teal-500 rounded-full"
           initial={{ height: 0 }}
           animate={{ height: "55%" }}
           transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
@@ -73,10 +69,10 @@ export default function RxTracker() {
               <div
                 className={`relative z-10 w-12 h-12 rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-300 ${
                   isCompleted
-                    ? "bg-[#4ECDC4]/20 border-[#4ECDC4]"
+                    ? "bg-teal-50 border-teal-400"
                     : isActive
-                    ? "bg-[#6B8AFF]/20 border-[#6B8AFF]"
-                    : "bg-[#1A2540] border-[#2A3550]"
+                    ? "bg-blue-50 border-blue-400"
+                    : "bg-white border-slate-200"
                 }`}
               >
                 {isActive ? (
@@ -84,16 +80,20 @@ export default function RxTracker() {
                     animate={{ rotate: 360 }}
                     transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                   >
-                    <Icon className="w-5 h-5" style={{ color: step.color }} />
+                    <Icon className={`w-5 h-5 ${isActive ? "text-blue-500" : "text-slate-300"}`} />
                   </motion.div>
                 ) : (
-                  <Icon className="w-5 h-5" style={{ color: step.color }} />
+                  <Icon
+                    className={`w-5 h-5 ${
+                      isCompleted ? "text-teal-600" : "text-slate-300"
+                    }`}
+                  />
                 )}
 
                 {/* Pulse for active */}
                 {isActive && (
                   <motion.div
-                    className="absolute inset-0 rounded-full border-2 border-[#6B8AFF]"
+                    className="absolute inset-0 rounded-full border-2 border-blue-400"
                     animate={{ scale: [1, 1.4, 1], opacity: [0.8, 0, 0.8] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
@@ -104,7 +104,7 @@ export default function RxTracker() {
               <div
                 className={`flex-1 pb-6 ${
                   isActive
-                    ? "bg-[#6B8AFF]/6 border border-[#6B8AFF]/20 rounded-xl p-4 -mt-1"
+                    ? "bg-blue-50 border border-blue-100 rounded-xl p-4 -mt-1"
                     : ""
                 }`}
               >
@@ -113,33 +113,37 @@ export default function RxTracker() {
                     <div className="flex items-center gap-2">
                       <p
                         className={`font-semibold text-sm ${
-                          isCompleted ? "text-white" : isActive ? "text-white" : "text-[#475569]"
+                          isCompleted
+                            ? "text-slate-900"
+                            : isActive
+                            ? "text-slate-900"
+                            : "text-slate-400"
                         }`}
                       >
                         {step.title}
                       </p>
                       {isActive && (
-                        <span className="px-2 py-0.5 rounded-full bg-[#6B8AFF]/20 text-[#6B8AFF] text-[10px] font-bold border border-[#6B8AFF]/30">
+                        <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold border border-blue-200">
                           IN PROGRESS
                         </span>
                       )}
                       {isCompleted && (
-                        <CheckCircle className="w-4 h-4 text-[#4ECDC4]" />
+                        <CheckCircle className="w-4 h-4 text-teal-500" />
                       )}
                     </div>
                     <p
                       className={`text-xs mt-0.5 ${
                         isCompleted
-                          ? "text-[#64748B]"
+                          ? "text-slate-400"
                           : isActive
-                          ? "text-[#94A3B8]"
-                          : "text-[#374151]"
+                          ? "text-slate-600"
+                          : "text-slate-400"
                       }`}
                     >
                       {step.detail}
                     </p>
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs text-[#475569]">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400">
                     <Clock className="w-3.5 h-3.5" />
                     <span>{step.timestamp}</span>
                   </div>
@@ -148,15 +152,15 @@ export default function RxTracker() {
                 {/* Active step progress bar */}
                 {isActive && (
                   <div className="mt-3">
-                    <div className="h-1.5 bg-[#1A2540] rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-blue-100 rounded-full overflow-hidden">
                       <motion.div
-                        className="h-full bg-gradient-to-r from-[#6B8AFF] to-[#4ECDC4] rounded-full"
+                        className="h-full bg-blue-500 rounded-full"
                         initial={{ width: "0%" }}
                         animate={{ width: "65%" }}
                         transition={{ duration: 2, ease: "easeOut", delay: 0.8 }}
                       />
                     </div>
-                    <p className="text-[#6B8AFF] text-[10px] mt-1 font-medium">65% complete</p>
+                    <p className="text-blue-600 text-[10px] mt-1 font-medium">65% complete</p>
                   </div>
                 )}
               </div>

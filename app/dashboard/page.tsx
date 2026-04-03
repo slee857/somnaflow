@@ -21,9 +21,9 @@ import DoctorDashboard from "@/components/telehealth/DoctorDashboard";
 import VideoConsult from "@/components/telehealth/VideoConsult";
 
 const stats = [
-  { label: "Pending Review", value: "7", icon: Clock, color: "#F59E0B", change: "+2 new" },
-  { label: "Approved Today", value: "14", icon: CheckCircle, color: "#4ECDC4", change: "↑ 12% vs avg" },
-  { label: "Active Patients", value: "342", icon: Users, color: "#6B8AFF", change: "+18 this week" },
+  { label: "Pending Review", value: "7", icon: Clock, color: "text-amber-600", bg: "bg-amber-50 border-amber-100", change: "+2 new" },
+  { label: "Approved Today", value: "14", icon: CheckCircle, color: "text-teal-600", bg: "bg-teal-50 border-teal-100", change: "↑ 12% vs avg" },
+  { label: "Active Patients", value: "342", icon: Users, color: "text-blue-600", bg: "bg-blue-50 border-blue-100", change: "+18 this week" },
 ];
 
 const patients = [
@@ -69,22 +69,22 @@ export default function DashboardPage() {
   const [selectedPatient, setSelectedPatient] = useState(patients[0]);
 
   return (
-    <div className="min-h-screen bg-[#0B1120] flex">
+    <div className="min-h-screen bg-slate-50 flex">
       {/* Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 bg-[#070E1A] border-r border-[#1A2540] fixed left-0 top-0 bottom-0 z-40">
+      <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-slate-200 fixed left-0 top-0 bottom-0 z-40">
         {/* Logo */}
-        <div className="p-6 border-b border-[#1A2540]">
+        <div className="p-6 border-b border-slate-200">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#4ECDC4] flex items-center justify-center">
-              <Moon className="w-4 h-4 text-[#0B1120]" strokeWidth={2.5} />
+            <div className="w-8 h-8 rounded-lg bg-teal-600 flex items-center justify-center">
+              <Moon className="w-4 h-4 text-white" strokeWidth={2.5} />
             </div>
-            <span className="text-lg font-bold text-white">
-              Somna<span className="text-[#4ECDC4]">Flow</span>
+            <span className="text-lg font-bold text-slate-900">
+              Somna<span className="text-teal-600">Flow</span>
             </span>
           </Link>
           <div className="mt-3 flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-400" />
-            <span className="text-xs text-[#64748B]">Physician Portal</span>
+            <div className="w-2 h-2 rounded-full bg-green-500" />
+            <span className="text-xs text-slate-400">Physician Portal</span>
           </div>
         </div>
 
@@ -102,8 +102,8 @@ export default function DashboardPage() {
                 key={item.label}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${
                   item.active
-                    ? "bg-[#4ECDC4]/10 text-[#4ECDC4] border border-[#4ECDC4]/20"
-                    : "text-[#64748B] hover:text-white hover:bg-white/5"
+                    ? "bg-teal-50 text-teal-700 border border-teal-100 font-medium"
+                    : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -114,16 +114,16 @@ export default function DashboardPage() {
         </nav>
 
         {/* Doctor info */}
-        <div className="p-4 border-t border-[#1A2540]">
+        <div className="p-4 border-t border-slate-200">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#4ECDC4]/30 to-[#6B8AFF]/30 border border-[#4ECDC4]/30 flex items-center justify-center font-bold text-sm text-white">
+            <div className="w-10 h-10 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center font-bold text-sm text-teal-700">
               SC
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-semibold truncate">Dr. Sarah Chen</p>
-              <p className="text-[#64748B] text-xs">Sleep Medicine, MD</p>
+              <p className="text-slate-900 text-sm font-semibold truncate">Dr. Sarah Chen</p>
+              <p className="text-slate-400 text-xs">Sleep Medicine, MD</p>
             </div>
-            <button className="text-[#475569] hover:text-white transition-colors">
+            <button className="text-slate-400 hover:text-slate-700 transition-colors">
               <Settings className="w-4 h-4" />
             </button>
           </div>
@@ -133,18 +133,18 @@ export default function DashboardPage() {
       {/* Main content */}
       <div className="flex-1 lg:ml-64">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-[#0B1120]/95 backdrop-blur-sm border-b border-[#1A2540] px-6 py-4">
+        <header className="sticky top-0 z-30 bg-white border-b border-slate-200 px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-white font-bold text-xl">Physician Dashboard</h1>
-              <p className="text-[#64748B] text-sm">Thursday, April 3, 2026</p>
+              <h1 className="text-slate-900 font-bold text-xl">Physician Dashboard</h1>
+              <p className="text-slate-400 text-sm">Thursday, April 3, 2026</p>
             </div>
             <div className="flex items-center gap-3">
-              <button className="relative p-2 rounded-lg bg-[#1A2540] border border-[#2A3550] hover:border-[#4ECDC4]/30 transition-colors">
-                <Bell className="w-5 h-5 text-[#64748B]" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#EF4444]" />
+              <button className="relative p-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition-colors">
+                <Bell className="w-5 h-5 text-slate-400" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500" />
               </button>
-              <Link href="/" className="text-sm text-[#64748B] hover:text-white transition-colors">
+              <Link href="/" className="text-sm text-slate-400 hover:text-slate-700 transition-colors">
                 Back to Site
               </Link>
             </div>
@@ -162,21 +162,16 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  className="bg-[#1A2540] border border-[#2A3550] rounded-2xl p-5"
+                  className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[#64748B] text-sm">{stat.label}</span>
-                    <div
-                      className="w-9 h-9 rounded-xl flex items-center justify-center"
-                      style={{ background: `${stat.color}15` }}
-                    >
-                      <Icon className="w-5 h-5" style={{ color: stat.color }} />
+                    <span className="text-slate-500 text-sm">{stat.label}</span>
+                    <div className={`w-9 h-9 rounded-xl border flex items-center justify-center ${stat.bg}`}>
+                      <Icon className={`w-5 h-5 ${stat.color}`} />
                     </div>
                   </div>
-                  <p className="text-white text-3xl font-black">{stat.value}</p>
-                  <p className="text-[#64748B] text-xs mt-1" style={{ color: stat.color }}>
-                    {stat.change}
-                  </p>
+                  <p className="text-slate-900 text-3xl font-black">{stat.value}</p>
+                  <p className={`text-xs mt-1 ${stat.color}`}>{stat.change}</p>
                 </motion.div>
               );
             })}
@@ -186,63 +181,65 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
             {/* Patient queue */}
             <div className="xl:col-span-1">
-              <div className="bg-[#1A2540] border border-[#2A3550] rounded-2xl overflow-hidden">
-                <div className="p-5 border-b border-[#2A3550]">
+              <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                <div className="p-5 border-b border-slate-200">
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-white font-semibold">Patient Queue</h3>
-                    <button className="p-1.5 rounded-lg hover:bg-white/5 text-[#64748B] hover:text-white transition-colors">
+                    <h3 className="text-slate-900 font-semibold">Patient Queue</h3>
+                    <button className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors">
                       <Filter className="w-4 h-4" />
                     </button>
                   </div>
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#475569]" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <input
-                      className="w-full bg-[#0B1120]/50 border border-[#2A3550] rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-[#475569] outline-none focus:border-[#4ECDC4]/40"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-50 transition-all"
                       placeholder="Search patients..."
                     />
                   </div>
                 </div>
-                <div className="divide-y divide-[#2A3550]">
+                <div className="divide-y divide-slate-100">
                   {patients.map((patient) => (
                     <button
                       key={patient.id}
                       onClick={() => setSelectedPatient(patient)}
-                      className={`w-full text-left p-4 hover:bg-white/3 transition-colors ${
-                        selectedPatient.id === patient.id ? "bg-[#4ECDC4]/5 border-l-2 border-[#4ECDC4]" : ""
+                      className={`w-full text-left p-4 hover:bg-slate-50 transition-colors ${
+                        selectedPatient.id === patient.id
+                          ? "bg-teal-50/60 border-l-2 border-teal-500"
+                          : ""
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <p className="text-white text-sm font-semibold">{patient.name}</p>
+                        <p className="text-slate-900 text-sm font-semibold">{patient.name}</p>
                         <span
                           className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                             patient.status === "pending"
-                              ? "bg-[#F59E0B]/10 text-[#F59E0B] border border-[#F59E0B]/20"
-                              : "bg-[#4ECDC4]/10 text-[#4ECDC4] border border-[#4ECDC4]/20"
+                              ? "bg-amber-50 text-amber-700 border border-amber-200"
+                              : "bg-teal-50 text-teal-700 border border-teal-200"
                           }`}
                         >
                           {patient.status}
                         </span>
                       </div>
-                      <p className="text-[#64748B] text-xs">{patient.issue}</p>
+                      <p className="text-slate-400 text-xs">{patient.issue}</p>
                       <div className="flex items-center justify-between mt-1.5">
                         <span
                           className={`text-[10px] font-medium ${
                             patient.severity === "Severe"
-                              ? "text-red-400"
+                              ? "text-red-500"
                               : patient.severity === "Moderate"
-                              ? "text-[#F59E0B]"
-                              : "text-[#4ECDC4]"
+                              ? "text-amber-600"
+                              : "text-teal-600"
                           }`}
                         >
                           {patient.severity}
                         </span>
-                        <span className="text-[#475569] text-[10px]">{patient.submitted}</span>
+                        <span className="text-slate-400 text-[10px]">{patient.submitted}</span>
                       </div>
                     </button>
                   ))}
                 </div>
-                <div className="p-3 text-center border-t border-[#2A3550]">
-                  <button className="text-[#4ECDC4] text-xs hover:underline flex items-center gap-1 mx-auto">
+                <div className="p-3 text-center border-t border-slate-200">
+                  <button className="text-teal-600 text-xs hover:underline flex items-center gap-1 mx-auto">
                     View all patients
                     <ChevronRight className="w-3 h-3" />
                   </button>
@@ -253,15 +250,15 @@ export default function DashboardPage() {
             {/* Detail panel */}
             <div className="xl:col-span-2">
               {/* Tabs */}
-              <div className="flex gap-1 bg-[#1A2540] border border-[#2A3550] rounded-2xl p-1.5 mb-5">
+              <div className="flex gap-1 bg-white border border-slate-200 rounded-2xl p-1.5 mb-5 shadow-sm">
                 {tabs.map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`flex-1 text-sm font-medium px-4 py-2.5 rounded-xl transition-all ${
                       activeTab === tab
-                        ? "bg-[#4ECDC4]/15 text-[#4ECDC4] border border-[#4ECDC4]/25"
-                        : "text-[#64748B] hover:text-white"
+                        ? "bg-teal-50 text-teal-700 border border-teal-200 shadow-sm"
+                        : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
                     }`}
                   >
                     {tab}
@@ -276,10 +273,10 @@ export default function DashboardPage() {
                 </div>
               )}
               {activeTab === "Records" && (
-                <div className="bg-[#1A2540] border border-[#2A3550] rounded-2xl p-8 text-center">
-                  <FileText className="w-12 h-12 text-[#2A3550] mx-auto mb-4" />
-                  <h3 className="text-white font-semibold mb-2">Patient Records</h3>
-                  <p className="text-[#64748B] text-sm">Complete medical history and prescription records</p>
+                <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center shadow-sm">
+                  <FileText className="w-12 h-12 text-slate-200 mx-auto mb-4" />
+                  <h3 className="text-slate-900 font-semibold mb-2">Patient Records</h3>
+                  <p className="text-slate-400 text-sm">Complete medical history and prescription records</p>
                 </div>
               )}
             </div>

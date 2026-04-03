@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, ArrowRight, CheckCircle, Sparkles, FileText } from "lucide-react";
+import { Moon, ArrowRight, CheckCircle, FileText } from "lucide-react";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import ProgressBar from "@/components/intake/ProgressBar";
@@ -85,7 +85,6 @@ export default function IntakePage() {
         setStep((prev) => (prev < 5 ? ((prev + 1) as Step) : prev));
       }, 1000);
     } else {
-      // Done — go to summary
       setStep(5);
       setGenerating(true);
       setTimeout(() => {
@@ -102,7 +101,7 @@ export default function IntakePage() {
       : [];
 
   return (
-    <div className="min-h-screen bg-[#0B1120]">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <div className="max-w-2xl mx-auto px-4 sm:px-6 pt-28 pb-20">
         {/* Progress */}
@@ -126,14 +125,14 @@ export default function IntakePage() {
               exit={{ opacity: 0, y: -30 }}
               className="text-center flex flex-col items-center gap-8 pt-8"
             >
-              <div className="w-20 h-20 rounded-2xl bg-[#4ECDC4]/15 border border-[#4ECDC4]/30 flex items-center justify-center">
-                <Moon className="w-10 h-10 text-[#4ECDC4]" />
+              <div className="w-20 h-20 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center">
+                <Moon className="w-10 h-10 text-teal-600" />
               </div>
               <div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+                <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
                   Your Sleep Consultation
                 </h1>
-                <p className="text-[#94A3B8] text-lg max-w-md mx-auto leading-relaxed">
+                <p className="text-slate-500 text-lg max-w-md mx-auto leading-relaxed">
                   Answer 4 quick questions. Our AI analyzes your sleep profile and generates a clinical summary for your physician.
                 </p>
               </div>
@@ -146,21 +145,21 @@ export default function IntakePage() {
                 ].map((stat) => (
                   <div
                     key={stat.label}
-                    className="bg-[#1A2540] border border-[#2A3550] rounded-xl p-4 text-center"
+                    className="bg-white border border-slate-200 rounded-xl p-4 text-center shadow-sm"
                   >
-                    <p className="text-[#4ECDC4] font-bold text-xl">{stat.value}</p>
-                    <p className="text-[#64748B] text-xs mt-1">{stat.label}</p>
+                    <p className="text-teal-600 font-bold text-xl">{stat.value}</p>
+                    <p className="text-slate-400 text-xs mt-1">{stat.label}</p>
                   </div>
                 ))}
               </div>
 
               <VoiceIntake onActivate={startIntake} isActive={false} />
 
-              <p className="text-[#475569] text-xs">
+              <p className="text-slate-400 text-xs">
                 Prefer text?{" "}
                 <button
                   onClick={startIntake}
-                  className="text-[#4ECDC4] hover:underline"
+                  className="text-teal-600 hover:underline"
                 >
                   Use text questions instead
                 </button>
@@ -169,7 +168,7 @@ export default function IntakePage() {
           )}
 
           {/* Steps 2–5: Chat flow */}
-          {step >= 2 && step <= 5 && (
+          {step >= 2 && step <= 5 && !generating && (
             <motion.div
               key="chat"
               initial={{ opacity: 0, y: 20 }}
@@ -182,7 +181,7 @@ export default function IntakePage() {
               </div>
 
               {/* Chat bubbles */}
-              <div className="bg-[#1A2540]/50 border border-[#2A3550] rounded-2xl p-5 min-h-60">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 min-h-60">
                 <SleepQuestions
                   messages={messages}
                   options={currentOptions}
@@ -204,27 +203,19 @@ export default function IntakePage() {
             >
               <div className="relative w-24 h-24">
                 <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-[#4ECDC4]/30"
-                  animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-                <motion.div
-                  className="w-24 h-24 rounded-full border-4 border-transparent border-t-[#4ECDC4] border-r-[#6B8AFF]"
+                  className="w-24 h-24 rounded-full border-4 border-transparent border-t-teal-500 border-r-teal-300"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
                 />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Sparkles className="w-8 h-8 text-[#4ECDC4]" />
-                </div>
               </div>
               <div className="text-center">
-                <h3 className="text-xl font-bold text-white mb-2">Generating your clinical summary...</h3>
-                <p className="text-[#64748B] text-sm">AI analyzing 47 data points</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Generating your clinical summary...</h3>
+                <p className="text-slate-400 text-sm">AI analyzing 47 data points</p>
               </div>
               <div className="w-full max-w-xs">
-                <div className="h-1.5 bg-[#1A2540] rounded-full overflow-hidden">
+                <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-[#4ECDC4] to-[#6B8AFF] rounded-full"
+                    className="h-full bg-teal-500 rounded-full"
                     initial={{ width: "10%" }}
                     animate={{ width: "95%" }}
                     transition={{ duration: 2.8, ease: "easeOut" }}
@@ -243,32 +234,32 @@ export default function IntakePage() {
               className="flex flex-col gap-6"
             >
               <div className="text-center mb-2">
-                <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-full px-4 py-2 mb-4">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  <span className="text-green-400 text-sm font-medium">Clinical Summary Ready</span>
+                <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-2 mb-4">
+                  <CheckCircle className="w-4 h-4 text-green-600" />
+                  <span className="text-green-700 text-sm font-medium">Clinical Summary Ready</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-white">Your Sleep Profile</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Your Sleep Profile</h2>
               </div>
 
               {/* Summary card */}
-              <div className="bg-[#1A2540] border border-[#2A3550] rounded-2xl overflow-hidden">
+              <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-[#4ECDC4]/10 to-[#6B8AFF]/10 border-b border-[#2A3550] p-5">
+                <div className="bg-teal-50 border-b border-teal-100 p-5">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[#4ECDC4] text-xs font-bold uppercase tracking-wide">
+                    <span className="text-teal-700 text-xs font-bold uppercase tracking-wide">
                       AI Recommendation
                     </span>
-                    <span className="px-3 py-1 bg-[#4ECDC4]/15 border border-[#4ECDC4]/30 rounded-full text-[#4ECDC4] text-xs font-bold">
+                    <span className="px-3 py-1 bg-teal-100 border border-teal-200 rounded-full text-teal-700 text-xs font-bold">
                       {summaryData.confidence}% match
                     </span>
                   </div>
-                  <h3 className="text-white font-bold text-xl">{summaryData.recommendation}</h3>
-                  <p className="text-[#94A3B8] text-sm mt-1">{summaryData.mechanism}</p>
+                  <h3 className="text-slate-900 font-bold text-xl">{summaryData.recommendation}</h3>
+                  <p className="text-slate-500 text-sm mt-1">{summaryData.mechanism}</p>
                 </div>
 
                 {/* Insights */}
                 <div className="p-5">
-                  <p className="text-[#64748B] text-xs uppercase tracking-wide font-semibold mb-3">
+                  <p className="text-slate-400 text-xs uppercase tracking-wide font-semibold mb-3">
                     Key Insights
                   </p>
                   <ul className="space-y-3">
@@ -280,21 +271,21 @@ export default function IntakePage() {
                         transition={{ delay: i * 0.1 }}
                         className="flex items-start gap-3"
                       >
-                        <span className="w-5 h-5 rounded-full bg-[#4ECDC4]/20 border border-[#4ECDC4]/30 flex items-center justify-center shrink-0 mt-0.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#4ECDC4]" />
+                        <span className="w-5 h-5 rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center shrink-0 mt-0.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
                         </span>
-                        <span className="text-[#94A3B8] text-sm leading-relaxed">{insight}</span>
+                        <span className="text-slate-600 text-sm leading-relaxed">{insight}</span>
                       </motion.li>
                     ))}
                   </ul>
 
                   {/* Profile */}
-                  <div className="mt-5 pt-5 border-t border-[#2A3550]">
+                  <div className="mt-5 pt-5 border-t border-slate-100">
                     <div className="flex items-center gap-3">
-                      <FileText className="w-4 h-4 text-[#64748B]" />
-                      <p className="text-[#64748B] text-sm">
+                      <FileText className="w-4 h-4 text-slate-400" />
+                      <p className="text-slate-500 text-sm">
                         Sleep Profile:{" "}
-                        <span className="text-white font-medium">{summaryData.profile}</span>
+                        <span className="text-slate-900 font-medium">{summaryData.profile}</span>
                       </p>
                     </div>
                   </div>
@@ -308,18 +299,14 @@ export default function IntakePage() {
                 transition={{ delay: 0.5 }}
                 className="space-y-3"
               >
-                <Link href="/checkout">
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full flex items-center justify-center gap-3 bg-[#4ECDC4] hover:bg-[#3DBDB4] text-[#0B1120] font-bold py-4 rounded-2xl text-lg shadow-xl shadow-[#4ECDC4]/25 transition-all"
-                  >
+                <Link href="/consult">
+                  <button className="w-full flex items-center justify-center gap-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-4 rounded-xl text-lg shadow-sm transition-colors">
                     Connect with a Licensed Physician
                     <ArrowRight className="w-5 h-5" />
-                  </motion.button>
+                  </button>
                 </Link>
                 <Link href="/dashboard">
-                  <button className="w-full text-[#64748B] hover:text-[#94A3B8] text-sm py-2 transition-colors">
+                  <button className="w-full text-slate-400 hover:text-slate-600 text-sm py-2 transition-colors">
                     View Physician Dashboard →
                   </button>
                 </Link>

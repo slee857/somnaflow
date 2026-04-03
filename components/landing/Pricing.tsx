@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, X, Zap } from "lucide-react";
+import { Check, X } from "lucide-react";
 import Link from "next/link";
 
 const options = [
@@ -20,9 +20,8 @@ const options = [
       { text: "Expensive out-of-pocket", included: false },
     ],
     cta: null,
-    color: "#EF4444",
-    bgColor: "rgba(239, 68, 68, 0.05)",
-    borderColor: "rgba(239, 68, 68, 0.2)",
+    tag: null,
+    variant: "neutral" as const,
   },
   {
     name: "Generic Supplements",
@@ -39,10 +38,8 @@ const options = [
       { text: "Hit-or-miss results", included: false },
     ],
     cta: null,
-    color: "#F59E0B",
-    bgColor: "rgba(245, 158, 11, 0.05)",
-    borderColor: "rgba(245, 158, 11, 0.2)",
     tag: "Doesn't Work",
+    variant: "warning" as const,
   },
   {
     name: "SomnaFlow",
@@ -59,20 +56,15 @@ const options = [
       { text: "No dependency formulas", included: true },
     ],
     cta: "Start for $79/mo",
-    color: "#4ECDC4",
-    bgColor: "rgba(78, 205, 196, 0.08)",
-    borderColor: "rgba(78, 205, 196, 0.4)",
     tag: "Best Value",
+    variant: "featured" as const,
   },
 ];
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-24 lg:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[#0B1120]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#4ECDC4]/4 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="pricing" className="py-24 lg:py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -81,14 +73,14 @@ export default function Pricing() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span className="inline-block text-[#4ECDC4] font-semibold text-sm uppercase tracking-widest mb-4">
+          <span className="inline-block text-teal-600 font-semibold text-sm uppercase tracking-widest mb-4">
             Pricing
           </span>
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
             The smart choice is{" "}
-            <span className="text-[#4ECDC4]">obvious</span>
+            <span className="text-teal-600">obvious</span>
           </h2>
-          <p className="text-[#94A3B8] text-lg max-w-xl mx-auto">
+          <p className="text-slate-500 text-lg max-w-xl mx-auto">
             Compare your options. The math speaks for itself.
           </p>
         </motion.div>
@@ -103,21 +95,19 @@ export default function Pricing() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className={`relative rounded-2xl p-7 border transition-all duration-300 ${
-                option.highlighted ? "scale-[1.04] lg:scale-[1.06] shadow-2xl shadow-[#4ECDC4]/15" : ""
+                option.highlighted
+                  ? "border-2 border-teal-500 bg-teal-50/30 shadow-md scale-[1.02] lg:scale-[1.04]"
+                  : "border border-slate-200 bg-white shadow-sm"
               }`}
-              style={{
-                background: option.bgColor,
-                borderColor: option.borderColor,
-              }}
             >
               {/* Tag */}
               {option.tag && (
                 <div
-                  className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold"
-                  style={{
-                    background: option.color,
-                    color: option.highlighted ? "#0B1120" : "white",
-                  }}
+                  className={`absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold ${
+                    option.highlighted
+                      ? "bg-teal-600 text-white"
+                      : "bg-amber-100 text-amber-700 border border-amber-200"
+                  }`}
                 >
                   {option.tag}
                 </div>
@@ -125,12 +115,12 @@ export default function Pricing() {
 
               {/* Header */}
               <div className="mb-6">
-                <p className="text-[#94A3B8] text-sm mb-1">{option.name}</p>
+                <p className="text-slate-500 text-sm mb-1">{option.name}</p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-white">{option.price}</span>
-                  <span className="text-[#64748B] text-sm">/{option.period.split(" ")[1] || option.period}</span>
+                  <span className="text-4xl font-black text-slate-900">{option.price}</span>
+                  <span className="text-slate-400 text-sm">/{option.period.split(" ")[1] || option.period}</span>
                 </div>
-                <p className="text-xs text-[#64748B] mt-1">{option.description}</p>
+                <p className="text-xs text-slate-400 mt-1">{option.description}</p>
               </div>
 
               {/* Features */}
@@ -140,19 +130,19 @@ export default function Pricing() {
                     <span
                       className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
                         feature.included
-                          ? "bg-[#4ECDC4]/20"
-                          : "bg-[#EF4444]/10"
+                          ? "bg-teal-50 border border-teal-200"
+                          : "bg-red-50 border border-red-100"
                       }`}
                     >
                       {feature.included ? (
-                        <Check className="w-3 h-3 text-[#4ECDC4]" />
+                        <Check className="w-3 h-3 text-teal-600" />
                       ) : (
-                        <X className="w-3 h-3 text-[#EF4444]" />
+                        <X className="w-3 h-3 text-red-400" />
                       )}
                     </span>
                     <span
                       className={`text-sm leading-tight ${
-                        feature.included ? "text-[#CBD5E1]" : "text-[#64748B]"
+                        feature.included ? "text-slate-700" : "text-slate-400"
                       }`}
                     >
                       {feature.text}
@@ -164,14 +154,9 @@ export default function Pricing() {
               {/* CTA */}
               {option.cta && (
                 <Link href="/checkout">
-                  <motion.button
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="w-full flex items-center justify-center gap-2 bg-[#4ECDC4] hover:bg-[#3DBDB4] text-[#0B1120] font-bold py-3.5 rounded-full transition-colors shadow-lg shadow-[#4ECDC4]/25"
-                  >
-                    <Zap className="w-4 h-4" />
+                  <button className="w-full flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3.5 rounded-lg transition-colors shadow-sm">
                     {option.cta}
-                  </motion.button>
+                  </button>
                 </Link>
               )}
             </motion.div>
@@ -183,7 +168,7 @@ export default function Pricing() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center text-[#475569] text-sm mt-8"
+          className="text-center text-slate-400 text-sm mt-8"
         >
           Cancel anytime. No contracts. First consultation is free.
         </motion.p>

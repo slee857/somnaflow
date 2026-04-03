@@ -18,7 +18,6 @@ const plans = [
       "Sleep progress tracking",
     ],
     popular: false,
-    color: "#6B8AFF",
   },
   {
     id: "quarterly",
@@ -35,7 +34,6 @@ const plans = [
       "25% savings vs monthly",
     ],
     popular: true,
-    color: "#4ECDC4",
   },
   {
     id: "annual",
@@ -52,7 +50,6 @@ const plans = [
       "38% savings vs monthly",
     ],
     popular: false,
-    color: "#F59E0B",
   },
 ];
 
@@ -70,62 +67,47 @@ export default function PlanComparison({ selectedPlan, onSelect }: PlanCompariso
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
           onClick={() => onSelect(plan.id)}
           className={`relative text-left p-5 rounded-2xl border transition-all duration-200 ${
             selectedPlan === plan.id
-              ? "shadow-lg"
-              : "bg-[#1A2540] border-[#2A3550] hover:border-[#2A3550]/60"
+              ? "border-2 border-teal-500 bg-teal-50/20 shadow-md"
+              : "border border-slate-200 bg-white hover:border-slate-300 shadow-sm"
           }`}
-          style={
-            selectedPlan === plan.id
-              ? {
-                  background: `${plan.color}10`,
-                  borderColor: `${plan.color}50`,
-                  boxShadow: `0 8px 32px ${plan.color}15`,
-                }
-              : {}
-          }
         >
           {plan.popular && (
-            <div
-              className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-xs font-bold text-[#0B1120]"
-              style={{ background: plan.color }}
-            >
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-xs font-bold bg-teal-600 text-white">
               Most Popular
             </div>
           )}
 
           <div className="flex items-start justify-between mb-3">
             <div>
-              <p className="text-white font-bold">{plan.name}</p>
-              <p className="text-[#64748B] text-xs mt-0.5">{plan.description}</p>
+              <p className="text-slate-900 font-bold">{plan.name}</p>
+              <p className="text-slate-400 text-xs mt-0.5">{plan.description}</p>
             </div>
             <div
-              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-colors`}
-              style={
+              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                 selectedPlan === plan.id
-                  ? { background: plan.color, borderColor: plan.color }
-                  : { borderColor: "#2A3550" }
-              }
+                  ? "bg-teal-600 border-teal-600"
+                  : "border-slate-300"
+              }`}
             >
-              {selectedPlan === plan.id && <Check className="w-3 h-3 text-[#0B1120]" />}
+              {selectedPlan === plan.id && <Check className="w-3 h-3 text-white" />}
             </div>
           </div>
 
           <div className="flex items-baseline gap-1 mb-4">
-            <span className="text-3xl font-black text-white">${plan.price}</span>
-            <span className="text-[#64748B] text-sm">/{plan.period}</span>
-            {plan.originalPrice && (
-              <span className="text-[#475569] text-sm line-through ml-1">${plan.originalPrice}</span>
+            <span className="text-3xl font-black text-slate-900">${plan.price}</span>
+            <span className="text-slate-400 text-sm">/{plan.period}</span>
+            {"originalPrice" in plan && plan.originalPrice && (
+              <span className="text-slate-300 text-sm line-through ml-1">${plan.originalPrice}</span>
             )}
           </div>
 
           <ul className="space-y-2">
             {plan.features.map((feature) => (
-              <li key={feature} className="flex items-start gap-2 text-xs text-[#94A3B8]">
-                <Check className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: plan.color }} />
+              <li key={feature} className="flex items-start gap-2 text-xs text-slate-500">
+                <Check className="w-3.5 h-3.5 shrink-0 mt-0.5 text-teal-500" />
                 {feature}
               </li>
             ))}

@@ -33,16 +33,16 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
     <div className="flex flex-col items-center gap-6">
       {/* Main mic button */}
       <div className="relative flex items-center justify-center">
-        {/* Pulse rings */}
-        {(isActive && !recording) && (
+        {/* Pulse rings for active state */}
+        {isActive && !recording && (
           <>
             <motion.div
-              className="absolute w-32 h-32 rounded-full border border-[#4ECDC4]/20"
+              className="absolute w-32 h-32 rounded-full border border-teal-200"
               animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             />
             <motion.div
-              className="absolute w-32 h-32 rounded-full border border-[#4ECDC4]/15"
+              className="absolute w-32 h-32 rounded-full border border-teal-100"
               animate={{ scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }}
               transition={{ duration: 2.5, repeat: Infinity, delay: 0.4 }}
             />
@@ -51,38 +51,34 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
 
         {/* Recording rings */}
         {recording && (
-          <>
-            <motion.div
-              className="absolute rounded-full bg-[#EF4444]/10 border border-[#EF4444]/30"
-              animate={{
-                width: [100, 100 + volume * 60, 100],
-                height: [100, 100 + volume * 60, 100],
-                opacity: [0.6, 0.3, 0.6],
-              }}
-              transition={{ duration: 0.15 }}
-              style={{ transform: "translate(-50%, -50%)", top: "50%", left: "50%" }}
-            />
-          </>
+          <motion.div
+            className="absolute rounded-full bg-red-50 border border-red-200"
+            animate={{
+              width: [100, 100 + volume * 50, 100],
+              height: [100, 100 + volume * 50, 100],
+              opacity: [0.6, 0.3, 0.6],
+            }}
+            transition={{ duration: 0.15 }}
+            style={{ transform: "translate(-50%, -50%)", top: "50%", left: "50%" }}
+          />
         )}
 
-        <motion.button
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.93 }}
+        <button
           onClick={handleMicClick}
-          className={`relative z-10 w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 shadow-2xl ${
+          className={`relative z-10 w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 shadow-md ${
             recording
-              ? "bg-[#EF4444] shadow-[#EF4444]/40"
+              ? "bg-red-500 hover:bg-red-600 text-white"
               : isActive
-              ? "bg-[#4ECDC4] shadow-[#4ECDC4]/40 animate-pulse-ring"
-              : "bg-[#1A2540] border border-[#2A3550] hover:border-[#4ECDC4]/50"
+              ? "bg-teal-600 hover:bg-teal-700 text-white animate-pulse-ring"
+              : "bg-white border border-slate-200 hover:border-teal-300 hover:bg-teal-50 text-slate-400 hover:text-teal-600"
           }`}
         >
           {recording ? (
-            <MicOff className={`w-8 h-8 ${recording ? "text-white" : "text-[#94A3B8]"}`} />
+            <MicOff className="w-8 h-8" />
           ) : (
-            <Mic className={`w-8 h-8 ${isActive ? "text-[#0B1120]" : "text-[#94A3B8]"}`} />
+            <Mic className="w-8 h-8" />
           )}
-        </motion.button>
+        </button>
       </div>
 
       {/* Status text */}
@@ -96,21 +92,21 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
         >
           {recording ? (
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#EF4444] animate-pulse" />
-              <span className="text-[#EF4444] text-sm font-medium">Recording... tap to stop</span>
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-red-500 text-sm font-medium">Recording... tap to stop</span>
             </div>
           ) : isActive ? (
             <div className="flex flex-col items-center gap-1">
               <div className="flex items-center gap-2">
-                <Volume2 className="w-4 h-4 text-[#4ECDC4]" />
-                <span className="text-[#4ECDC4] text-sm font-medium">Tap mic to answer</span>
+                <Volume2 className="w-4 h-4 text-teal-600" />
+                <span className="text-teal-700 text-sm font-medium">Tap mic to answer</span>
               </div>
-              <span className="text-[#64748B] text-xs">or use the buttons below</span>
+              <span className="text-slate-400 text-xs">or use the buttons below</span>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-1">
-              <span className="text-[#94A3B8] text-sm font-medium">Tap to start voice consultation</span>
-              <span className="text-[#64748B] text-xs">Uses your microphone</span>
+              <span className="text-slate-600 text-sm font-medium">Tap to start voice consultation</span>
+              <span className="text-slate-400 text-xs">Uses your microphone</span>
             </div>
           )}
         </motion.div>
@@ -126,12 +122,12 @@ export default function VoiceIntake({ onActivate, isActive }: VoiceIntakeProps) 
           {Array.from({ length: 12 }).map((_, i) => (
             <motion.div
               key={i}
-              className="w-1 bg-[#EF4444] rounded-full"
+              className="w-1 bg-red-400 rounded-full"
               animate={{
-                height: [4, Math.random() * 28 + 4, 4],
+                height: [4, (i % 3 === 0 ? 20 : i % 2 === 0 ? 16 : 12) + 4, 4],
               }}
               transition={{
-                duration: 0.3,
+                duration: 0.4,
                 repeat: Infinity,
                 delay: i * 0.05,
               }}
