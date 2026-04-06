@@ -2,53 +2,14 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import {
-  ArrowRight,
-  X,
-  Check,
-  Clock,
-  Banknote,
-  AlertTriangle,
-  ShieldCheck,
-  Mic,
-  FileText,
-  Stethoscope,
-  Package,
-} from "lucide-react";
+import { ArrowRight, X, Check, Clock, Banknote, AlertTriangle } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
+import HeroDemo from "./HeroDemo";
 
 const beforeIcons = [Clock, Banknote, AlertTriangle, AlertTriangle];
-const systemIcons = [Mic, FileText, Stethoscope, Package];
 
 export default function Hero() {
   const { t } = useLanguage();
-  const [activeStep, setActiveStep] = useState(0);
-  const [progress, setProgress] = useState(0);
-
-  const systemSteps = t.hero.systemSteps.map((s, i) => ({
-    ...s,
-    icon: systemIcons[i],
-  }));
-
-  useEffect(() => {
-    const totalSteps = systemSteps.length;
-    const stepDurationMs = 1800;
-    const tickMs = 60;
-
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        const next = prev + tickMs / stepDurationMs;
-        if (next >= 1) {
-          setActiveStep((s) => (s + 1) % totalSteps);
-          return 0;
-        }
-        return next;
-      });
-    }, tickMs);
-
-    return () => clearInterval(interval);
-  }, [systemSteps.length]);
 
   return (
     <section className="bg-white pt-24 pb-0">
@@ -104,7 +65,10 @@ export default function Hero() {
 
             <div className="flex flex-wrap gap-2 mb-10">
               {t.hero.steps.map((item) => (
-                <span key={item} className="text-xs px-3 py-1.5 rounded-full border border-[#EBEBEB] text-[#525252] bg-white">
+                <span
+                  key={item}
+                  className="text-xs px-3 py-1.5 rounded-full border border-[#EBEBEB] text-[#525252] bg-white"
+                >
                   {item}
                 </span>
               ))}
@@ -146,124 +110,14 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right — 3D system visualization */}
+          {/* Right — interactive mini demo */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
             className="relative"
           >
-            <div className="bg-[#F8F8F8] border border-[#EBEBEB] rounded-3xl p-6 relative overflow-hidden">
-              {/* Premium amber glow */}
-              <div className="absolute -top-24 -right-24 h-56 w-56 rounded-full bg-[#D97706]/10 blur-3xl" />
-
-              {/* Physician-led badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.25 }}
-                className="absolute top-4 right-4 flex items-center gap-2 bg-[#0A0A0A] text-white text-xs font-semibold px-3 py-1.5 rounded-full"
-              >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                {t.hero.physicianLed}
-              </motion.div>
-
-              <p className="text-[#A3A3A3] text-xs font-semibold uppercase tracking-widest mb-5">
-                {t.hero.fromVoice}
-              </p>
-
-              <div className="relative mx-auto w-full max-w-md">
-                <div
-                  className="relative h-[420px] w-full"
-                  style={{ perspective: "900px" }}
-                >
-                  <div
-                    className="absolute inset-0 rounded-3xl"
-                    style={{
-                      transform: "rotateX(4deg) rotateY(-6deg)",
-                      transformStyle: "preserve-3d",
-                      transition: "transform 200ms ease-out",
-                    }}
-                  >
-                    {systemSteps.map((step, i) => {
-                      const Icon = step.icon;
-                      const relative = (i - activeStep + systemSteps.length) % systemSteps.length;
-                      const z = 120 - relative * 46;
-                      const y = relative * 13 - 16;
-                      const isPrimary = i === 2;
-
-                      return (
-                        <div
-                          key={step.title}
-                          className={[
-                            "absolute left-1/2 top-1/2 w-full rounded-2xl border p-4 shadow-sm bg-white",
-                            activeStep === i
-                              ? "ring-2 ring-amber-300/60 border-amber-300 shadow-[0_18px_45px_rgba(217,119,6,0.22)]"
-                              : isPrimary
-                              ? "border-amber-200 shadow-[0_14px_40px_rgba(217,119,6,0.18)]"
-                              : "border-[#EBEBEB]",
-                          ].join(" ")}
-                          style={{
-                            transform: `translate(-50%, -50%) translateY(${y}px) translateZ(${z}px) scale(${1 - relative * 0.03})`,
-                          }}
-                        >
-                          <div className="flex items-start justify-between gap-3 mb-3">
-                            <div className="flex items-center gap-2">
-                              <span
-                                className={[
-                                  "inline-flex items-center justify-center rounded-xl w-9 h-9 border",
-                                  isPrimary ? "border-amber-200 bg-amber-50" : "border-[#EBEBEB]",
-                                ].join(" ")}
-                              >
-                                <Icon
-                                  className={
-                                    isPrimary ? "w-4 h-4 text-[#D97706]" : "w-4 h-4 text-[#525252]"
-                                  }
-                                />
-                              </span>
-                              <span className="text-[10px] font-semibold uppercase tracking-wide text-[#D97706]">
-                                {step.kicker}
-                              </span>
-                            </div>
-                          </div>
-
-                          <p className="text-[#0A0A0A] font-black leading-tight">{step.title}</p>
-                          <p className="text-[#525252] text-sm leading-relaxed mt-2">{step.desc}</p>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="absolute bottom-3 left-0 right-0 flex justify-center pointer-events-none">
-                    <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full border border-[#EBEBEB] text-xs text-[#525252]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
-                      {t.hero.autoDemo}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4 bg-white border border-[#EBEBEB] rounded-xl p-3">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-[10px] uppercase tracking-wide text-[#A3A3A3] font-semibold">{t.hero.liveFlow}</p>
-                  <p className="text-xs text-[#D97706] font-semibold">
-                    {t.hero.step} {activeStep + 1}/{systemSteps.length}
-                  </p>
-                </div>
-                <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#D97706] rounded-full transition-all duration-75"
-                    style={{
-                      width: `${((activeStep + progress) / systemSteps.length) * 100}%`,
-                    }}
-                  />
-                </div>
-                <p className="text-xs text-[#525252] mt-2">
-                  <span className="font-semibold text-[#0A0A0A]">{systemSteps[activeStep].title}:</span>{" "}
-                  {systemSteps[activeStep].desc}
-                </p>
-              </div>
-            </div>
+            <HeroDemo />
 
             {/* Rating badge */}
             <motion.div
