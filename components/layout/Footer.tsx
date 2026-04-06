@@ -2,29 +2,11 @@
 
 import Link from "next/link";
 import { Moon, ExternalLink, Globe, Mail } from "lucide-react";
-
-const footerLinks = {
-  Platform: [
-    { label: "How It Works", href: "#how-it-works" },
-    { label: "Medications", href: "#medications" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Track Your Rx", href: "/tracking" },
-  ],
-  Company: [
-    { label: "About Us", href: "#" },
-    { label: "Our Physicians", href: "#" },
-    { label: "Science & Research", href: "#" },
-    { label: "Press", href: "#" },
-  ],
-  Support: [
-    { label: "Help Center", href: "#" },
-    { label: "Contact Us", href: "#" },
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
-  ],
-};
+import { useLanguage } from "@/lib/i18n";
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-white border-t border-[#EBEBEB]">
       {/* Main Footer */}
@@ -39,7 +21,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-[#525252] text-sm leading-relaxed max-w-xs mb-6">
-              Professional sleep medicine, delivered to your doorstep. Fix your sleep tonight — not in 15 months.
+              {t.footer.description}
             </p>
             <div className="flex items-center gap-2">
               <a
@@ -67,11 +49,13 @@ export default function Footer() {
           </div>
 
           {/* Links */}
-          {Object.entries(footerLinks).map(([group, links]) => (
+          {(["Platform", "Company", "Support"] as const).map((group) => (
             <div key={group}>
-              <h4 className="text-[#0A0A0A] font-semibold text-sm mb-4">{group}</h4>
+              <h4 className="text-[#0A0A0A] font-semibold text-sm mb-4">
+                {t.footer.groups[group]}
+              </h4>
               <ul className="space-y-3">
-                {links.map((link) => (
+                {t.footer.links[group].map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
@@ -88,29 +72,29 @@ export default function Footer() {
 
         {/* Compliance badges */}
         <div className="flex flex-wrap gap-2 mt-10 pt-8 border-t border-[#EBEBEB]">
-          {["256-bit SSL Encryption", "50-State Licensed", "HIPAA Compliant", "SOC 2 Type II"].map(
-            (badge) => (
-              <span
-                key={badge}
-                className="px-3 py-1.5 border border-[#EBEBEB] rounded-full text-xs text-[#A3A3A3] font-medium"
-              >
-                {badge}
-              </span>
-            )
-          )}
+          {t.footer.complianceBadges.map((badge) => (
+            <span
+              key={badge}
+              className="px-3 py-1.5 border border-[#EBEBEB] rounded-full text-xs text-[#A3A3A3] font-medium"
+            >
+              {badge}
+            </span>
+          ))}
         </div>
 
         {/* Legal disclaimer */}
         <div className="mt-8 space-y-3">
           <p className="text-[#A3A3A3] text-xs leading-relaxed">
-            <strong className="text-[#525252]">Medical Disclaimer:</strong> SomnaFlow is a telehealth platform that connects patients with independent, licensed physicians. Physicians exercise independent medical judgment. SomnaFlow does not practice medicine. Not for emergency use — if you are experiencing a medical emergency, call 911.
+            <strong className="text-[#525252]">{t.footer.medicalDisclaimerLabel}</strong>{" "}
+            {t.footer.medicalDisclaimerText}
           </p>
           <p className="text-[#A3A3A3] text-xs leading-relaxed">
-            <strong className="text-[#525252]">Controlled Substances:</strong> Controlled substances (Schedule II–V) are not prescribed through SomnaFlow. All medications prescribed are non-controlled. Individual results may vary.
+            <strong className="text-[#525252]">{t.footer.controlledLabel}</strong>{" "}
+            {t.footer.controlledText}
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-2">
-            <p className="text-[#A3A3A3] text-xs">&copy; 2026 SomnaFlow, Inc. All rights reserved.</p>
-            <p className="text-[#A3A3A3] text-xs">Available in all 50 states · Physicians licensed in your state</p>
+            <p className="text-[#A3A3A3] text-xs">{t.footer.copyright}</p>
+            <p className="text-[#A3A3A3] text-xs">{t.footer.availability}</p>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   X,
@@ -16,61 +16,20 @@ import {
   Stethoscope,
   Package,
 } from "lucide-react";
+import { useLanguage } from "@/lib/i18n";
 
-const trustStats = [
-  { value: "12,400+", label: "patients" },
-  { value: "4.9/5", label: "rating" },
-  { value: "< 24hr", label: "delivery" },
-  { value: "Non-addictive", label: "only" },
-];
-
-const before = [
-  { icon: Clock, text: "Sleep clinic waitlists (months)" },
-  { icon: Banknote, text: "Sleep studies: $2k–$4k out-of-pocket" },
-  { icon: AlertTriangle, text: "Grogginess + dependency risk" },
-  { icon: AlertTriangle, text: "Supplements that miss the root cause" },
-];
-
-const after = [
-  { text: "Board-certified consult from home (5 min)" },
-  { text: "Clinical brief from your transcription" },
-  { text: "Non-addictive sleep care — no dependency risk" },
-  { text: "Discreet delivery to your doorstep (tomorrow)" },
-];
+const beforeIcons = [Clock, Banknote, AlertTriangle, AlertTriangle];
+const systemIcons = [Mic, FileText, Stethoscope, Package];
 
 export default function Hero() {
+  const { t } = useLanguage();
   const [activeStep, setActiveStep] = useState(0);
   const [progress, setProgress] = useState(0);
 
-  const systemSteps = useMemo(
-    () => [
-      {
-        icon: Mic,
-        kicker: "1 MIN",
-        title: "Answer",
-        desc: "Speak once. We transcribe instantly.",
-      },
-      {
-        icon: FileText,
-        kicker: "CLINICAL BRIEF",
-        title: "Clinical brief",
-        desc: "Your doctor gets summary-ready notes.",
-      },
-      {
-        icon: Stethoscope,
-        kicker: "IN 5 MIN",
-        title: "Physician consult",
-        desc: "Board-certified next steps in minutes.",
-      },
-      {
-        icon: Package,
-        kicker: "DISCREET DELIVERY",
-        title: "Medication arrives",
-        desc: "Discreetly shipped to your door.",
-      },
-    ],
-    [],
-  );
+  const systemSteps = t.hero.systemSteps.map((s, i) => ({
+    ...s,
+    icon: systemIcons[i],
+  }));
 
   useEffect(() => {
     const totalSteps = systemSteps.length;
@@ -108,7 +67,7 @@ export default function Hero() {
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
               <span className="text-xs text-[#525252] tracking-widest uppercase font-medium">
-                Prescription Sleep Medicine
+                {t.hero.badge}
               </span>
             </motion.div>
 
@@ -118,11 +77,11 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.05 }}
               className="text-5xl sm:text-6xl lg:text-7xl font-black text-[#0A0A0A] leading-none tracking-tight mb-6"
             >
-              Sleep Medicine,
+              {t.hero.headline1}
               <br />
-              Delivered to
+              {t.hero.headline2}
               <br />
-              <span className="text-[#D97706]">Your Door.</span>
+              <span className="text-[#D97706]">{t.hero.headline3}</span>
             </motion.h1>
 
             <motion.p
@@ -131,7 +90,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.12 }}
               className="text-xl text-[#0A0A0A] leading-relaxed font-semibold mb-6 max-w-lg"
             >
-              Stop trying to sleep. Start treating it.
+              {t.hero.tagline}
             </motion.p>
 
             <motion.p
@@ -140,12 +99,11 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.18 }}
               className="text-lg text-[#525252] leading-relaxed mb-8 max-w-lg"
             >
-              Tap start. Answer in 1 minute. A licensed doctor reviews and prescribes. Medication
-              arrives in 24 hours.
+              {t.hero.description}
             </motion.p>
 
             <div className="flex flex-wrap gap-2 mb-10">
-              {["1) Start intake", "2) Answer by voice", "3) Licensed doctor Rx", "4) 24h delivery"].map((item) => (
+              {t.hero.steps.map((item) => (
                 <span key={item} className="text-xs px-3 py-1.5 rounded-full border border-[#EBEBEB] text-[#525252] bg-white">
                   {item}
                 </span>
@@ -160,7 +118,7 @@ export default function Hero() {
             >
               <Link href="/intake">
                 <button className="group flex items-center gap-3 bg-[#D97706] hover:bg-[#B45309] text-white font-semibold text-base px-8 py-4 rounded-full transition-all duration-200">
-                  Get Your Prescription — Free Consult
+                  {t.hero.cta}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </Link>
@@ -168,7 +126,7 @@ export default function Hero() {
                 href="#how-it-works"
                 className="flex items-center gap-1.5 py-4 text-sm text-[#525252] hover:text-[#0A0A0A] transition-colors"
               >
-                See how it works ↓
+                {t.hero.seeHow}
               </a>
             </motion.div>
 
@@ -179,7 +137,7 @@ export default function Hero() {
               transition={{ delay: 0.3 }}
               className="flex flex-wrap gap-x-8 gap-y-3"
             >
-              {trustStats.map((s) => (
+              {t.hero.trustStats.map((s) => (
                 <div key={s.label} className="flex items-baseline gap-1.5">
                   <p className="text-[#0A0A0A] font-bold text-base">{s.value}</p>
                   <p className="text-[#A3A3A3] text-xs">{s.label}</p>
@@ -207,11 +165,11 @@ export default function Hero() {
                 className="absolute top-4 right-4 flex items-center gap-2 bg-[#0A0A0A] text-white text-xs font-semibold px-3 py-1.5 rounded-full"
               >
                 <ShieldCheck className="w-3.5 h-3.5" />
-                Physician-led
+                {t.hero.physicianLed}
               </motion.div>
 
               <p className="text-[#A3A3A3] text-xs font-semibold uppercase tracking-widest mb-5">
-                From your voice to care
+                {t.hero.fromVoice}
               </p>
 
               <div className="relative mx-auto w-full max-w-md">
@@ -279,7 +237,7 @@ export default function Hero() {
                   <div className="absolute bottom-3 left-0 right-0 flex justify-center pointer-events-none">
                     <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full border border-[#EBEBEB] text-xs text-[#525252]">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
-                      Auto demo running
+                      {t.hero.autoDemo}
                     </span>
                   </div>
                 </div>
@@ -287,9 +245,9 @@ export default function Hero() {
 
               <div className="mt-4 bg-white border border-[#EBEBEB] rounded-xl p-3">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-[10px] uppercase tracking-wide text-[#A3A3A3] font-semibold">Live flow</p>
+                  <p className="text-[10px] uppercase tracking-wide text-[#A3A3A3] font-semibold">{t.hero.liveFlow}</p>
                   <p className="text-xs text-[#D97706] font-semibold">
-                    Step {activeStep + 1}/{systemSteps.length}
+                    {t.hero.step} {activeStep + 1}/{systemSteps.length}
                   </p>
                 </div>
                 <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -315,7 +273,7 @@ export default function Hero() {
               className="absolute -bottom-4 -left-4 bg-white border border-[#EBEBEB] rounded-2xl px-4 py-3 shadow-sm"
             >
               <p className="text-[#0A0A0A] font-bold text-sm">⭐ 4.9/5</p>
-              <p className="text-[#A3A3A3] text-xs">12,400 patients</p>
+              <p className="text-[#A3A3A3] text-xs">12,400 {t.hero.trustStats[0].label}</p>
             </motion.div>
           </motion.div>
         </div>
@@ -330,12 +288,12 @@ export default function Hero() {
         >
           <div className="text-center mb-12">
             <p className="text-[#A3A3A3] text-xs uppercase tracking-widest font-medium mb-4">
-              Why SomnaFlow
+              {t.hero.whySomnaFlow}
             </p>
             <h2 className="text-3xl sm:text-4xl font-black text-[#0A0A0A] tracking-tight">
-                  Stop settling for another sleepless night.
-                  <br />
-                  <span className="text-[#D97706]">Doctor + prescription care, fast.</span>
+              {t.hero.comparisonTitle}
+              <br />
+              <span className="text-[#D97706]">{t.hero.comparisonSubtitleHighlight}</span>
             </h2>
           </div>
 
@@ -346,17 +304,17 @@ export default function Hero() {
                 <div className="w-6 h-6 rounded-full border border-[#EBEBEB] flex items-center justify-center">
                   <X className="w-3.5 h-3.5 text-[#A3A3A3]" />
                 </div>
-                <p className="text-[#525252] font-semibold text-sm">The old way</p>
+                <p className="text-[#525252] font-semibold text-sm">{t.hero.oldWay}</p>
               </div>
               <ul className="space-y-4">
-                {before.map((item, i) => {
-                  const Icon = item.icon;
+                {t.hero.before.map((text, i) => {
+                  const Icon = beforeIcons[i];
                   return (
                     <li key={i} className="flex items-start gap-3">
                       <div className="w-7 h-7 rounded-full border border-[#EBEBEB] flex items-center justify-center shrink-0 mt-0.5">
                         <Icon className="w-3.5 h-3.5 text-[#A3A3A3]" />
                       </div>
-                      <span className="text-[#525252] text-sm leading-relaxed">{item.text}</span>
+                      <span className="text-[#525252] text-sm leading-relaxed">{text}</span>
                     </li>
                   );
                 })}
@@ -372,21 +330,21 @@ export default function Hero() {
                 <div className="w-6 h-6 rounded-full bg-[#D97706] flex items-center justify-center">
                   <Check className="w-3.5 h-3.5 text-white" />
                 </div>
-                <p className="text-[#0A0A0A] font-semibold text-sm">The SomnaFlow way</p>
+                <p className="text-[#0A0A0A] font-semibold text-sm">{t.hero.somnaFlowWay}</p>
               </div>
               <ul className="space-y-4">
-                {after.map((item, i) => (
+                {t.hero.after.map((text, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <div className="w-7 h-7 rounded-full border border-[#EBEBEB] flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-3.5 h-3.5 text-[#D97706]" />
                     </div>
-                    <span className="text-[#0A0A0A] text-sm leading-relaxed font-medium">{item.text}</span>
+                    <span className="text-[#0A0A0A] text-sm leading-relaxed font-medium">{text}</span>
                   </li>
                 ))}
               </ul>
               <Link href="/intake" className="block mt-7">
                 <button className="w-full bg-[#D97706] hover:bg-[#B45309] text-white font-semibold py-3.5 rounded-full transition-colors text-sm">
-                  Get Started — Free Consultation
+                  {t.hero.ctaComparison}
                 </button>
               </Link>
             </div>

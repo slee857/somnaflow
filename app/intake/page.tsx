@@ -8,31 +8,9 @@ import Navbar from "@/components/layout/Navbar";
 import ProgressBar from "@/components/intake/ProgressBar";
 import VoiceIntake from "@/components/intake/VoiceIntake";
 import SleepQuestions from "@/components/intake/SleepQuestions";
+import { useLanguage } from "@/lib/i18n";
 
 type Message = { from: "ai" | "user"; text: string };
-
-const qaFlow = [
-  {
-    question: "How long does it typically take you to fall asleep after getting into bed?",
-    options: ["Less than 15 min", "15–30 min", "30–60 min", "More than 1 hour"],
-  },
-  {
-    question: "Have you tried melatonin or other sleep supplements before?",
-    options: ["Never tried", "Tried, didn't work", "Tried, helped a little", "Still using them"],
-  },
-  {
-    question: "Do you experience grogginess or \"brain fog\" the morning after?",
-    options: ["Never", "Occasionally", "Most mornings", "Every single morning"],
-  },
-  {
-    question: "Are you concerned about dependency or addiction to sleep medication?",
-    options: ["Not at all", "Somewhat concerned", "Very concerned", "That's my #1 concern"],
-  },
-];
-
-const stepLabels = ["Welcome", "Sleep Onset", "Supplements", "Mornings", "Dependency", "Results"];
-
-type Step = 1 | 2 | 3 | 4 | 5 | 6;
 
 const summaryData = {
   recommendation: "Formula D1 — Day-Fresh",
@@ -47,7 +25,23 @@ const summaryData = {
   profile: "Sleep Onset + Maintenance with Performance Needs",
 };
 
+const summaryDataEs = {
+  recommendation: "Fórmula D1 — Día Fresco",
+  mechanism: "Daridorexant (DORA)",
+  confidence: 94,
+  insights: [
+    "Retraso significativo del inicio del sueño (>30 min) detectado",
+    "Tolerancia previa a melatonina probable según respuestas",
+    "Cero somnolencia al día siguiente es requisito principal",
+    "Formulación de bajo riesgo de dependencia fuertemente indicada",
+  ],
+  profile: "Inicio + Mantenimiento del Sueño con Necesidades de Rendimiento",
+};
+
+type Step = 1 | 2 | 3 | 4 | 5 | 6;
+
 export default function IntakePage() {
+  const { t, language } = useLanguage();
   const [step, setStep] = useState<Step>(1);
   const [voiceActive, setVoiceActive] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -58,6 +52,10 @@ export default function IntakePage() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<Message[]>([]);
   const qaIndexRef = useRef<number>(qaIndex);
+
+  const qaFlow = t.intake.qaFlow;
+  const stepLabels = [...t.intake.stepLabels];
+  const summary = language === "es" ? summaryDataEs : summaryData;
 
   useEffect(() => {
     messagesRef.current = messages;
@@ -73,16 +71,16 @@ export default function IntakePage() {
       const userAnswers = messages.filter((m) => m.from === "user").map((m) => m.text);
       const payload = {
         answers: userAnswers,
-        recommendation: summaryData.recommendation,
-        mechanism: summaryData.mechanism,
-        confidence: summaryData.confidence,
-        profile: summaryData.profile,
+        recommendation: summary.recommendation,
+        mechanism: summary.mechanism,
+        confidence: summary.confidence,
+        profile: summary.profile,
       };
       localStorage.setItem("somnaflow.intakeSummary", JSON.stringify(payload));
     } catch {
       // Ignore localStorage failures (private mode, etc.)
     }
-  }, [generatingDone, messages, step]);
+  }, [generatingDone, messages, step, summary]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -137,9 +135,9 @@ export default function IntakePage() {
     }
   };
 
-  const currentOptions =
+  const currentOptions: string[] =
     qaIndex < qaFlow.length && step >= 2 && step <= 5 && !isTyping && messages.length > 0
-      ? qaFlow[qaIndex].options
+      ? [...qaFlow[qaIndex].options]
       : [];
 
   return (
@@ -172,19 +170,15 @@ export default function IntakePage() {
               </div>
               <div>
                 <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-                  Your Sleep Consultation
+                  {t.intake.title}
                 </h1>
                 <p className="text-gray-500 text-lg max-w-md mx-auto leading-relaxed">
-                  Answer 4 quick questions. Our AI analyzes your sleep profile and generates a clinical summary for your physician.
+                  {t.intake.description}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
-                {[
-                  { value: "2 min", label: "To complete" },
-                  { value: "100%", label: "Confidential" },
-                  { value: "Free", label: "No obligation" },
-                ].map((stat) => (
+                {t.intake.stats.map((stat) => (
                   <div
                     key={stat.label}
                     className="bg-white border border-gray-200 rounded-xl p-4 text-center shadow-sm"
@@ -198,12 +192,12 @@ export default function IntakePage() {
               <VoiceIntake onActivate={startIntake} isActive={false} />
 
               <p className="text-gray-400 text-xs">
-                Prefer text?{" "}
+                {t.intake.preferText}{" "}
                 <button
                   onClick={startIntake}
                   className="text-[#D97706] hover:underline"
                 >
-                  Use text questions instead
+                  {t.intake.preferTextLink}
                 </button>
               </p>
             </motion.div>
@@ -256,8 +250,8 @@ export default function IntakePage() {
                 />
               </div>
               <div className="text-center">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Generating your clinical summary...</h3>
-                <p className="text-gray-400 text-sm">AI analyzing 47 data points</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{t.intake.generating}</h3>
+                <p className="text-gray-400 text-sm">{t.intake.analyzingPoints}</p>
               </div>
               <div className="w-full max-w-xs">
                 <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -283,9 +277,9 @@ export default function IntakePage() {
               <div className="text-center mb-2">
                 <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-2 mb-4">
                   <CheckCircle className="w-4 h-4 text-green-600" />
-                  <span className="text-green-700 text-sm font-medium">Clinical Summary Ready</span>
+                  <span className="text-green-700 text-sm font-medium">{t.intake.clinicalSummaryReady}</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Your Sleep Profile</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">{t.intake.yourSleepProfile}</h2>
               </div>
 
               {/* Summary card */}
@@ -294,23 +288,23 @@ export default function IntakePage() {
                 <div className="bg-amber-50 border-b border-amber-100 p-5">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-amber-700 text-xs font-bold uppercase tracking-wide">
-                      AI Recommendation
+                      {t.intake.aiRecommendation}
                     </span>
                     <span className="px-3 py-1 bg-amber-100 border border-amber-200 rounded-full text-amber-700 text-xs font-bold">
-                      {summaryData.confidence}% match
+                      {summary.confidence}% {t.intake.match}
                     </span>
                   </div>
-                  <h3 className="text-gray-900 font-bold text-xl">{summaryData.recommendation}</h3>
-                  <p className="text-gray-500 text-sm mt-1">{summaryData.mechanism}</p>
+                  <h3 className="text-gray-900 font-bold text-xl">{summary.recommendation}</h3>
+                  <p className="text-gray-500 text-sm mt-1">{summary.mechanism}</p>
                 </div>
 
                 {/* Insights */}
                 <div className="p-5">
                   <p className="text-gray-400 text-xs uppercase tracking-wide font-semibold mb-3">
-                    Key Insights
+                    {t.intake.keyInsights}
                   </p>
                   <ul className="space-y-3">
-                    {summaryData.insights.map((insight, i) => (
+                    {summary.insights.map((insight, i) => (
                       <motion.li
                         key={i}
                         initial={{ opacity: 0, x: -15 }}
@@ -331,8 +325,8 @@ export default function IntakePage() {
                     <div className="flex items-center gap-3">
                       <FileText className="w-4 h-4 text-gray-400" />
                       <p className="text-gray-500 text-sm">
-                        Sleep Profile:{" "}
-                        <span className="text-gray-900 font-medium">{summaryData.profile}</span>
+                        {t.intake.sleepProfile}{" "}
+                        <span className="text-gray-900 font-medium">{summary.profile}</span>
                       </p>
                     </div>
                   </div>
@@ -348,13 +342,13 @@ export default function IntakePage() {
               >
                 <Link href="/consult">
                   <button className="w-full flex items-center justify-center gap-3 bg-[#D97706] hover:bg-[#B45309] text-white font-semibold py-4 rounded-xl text-lg shadow-sm transition-colors">
-                    Connect with a Licensed Physician
+                    {t.intake.connectPhysician}
                     <ArrowRight className="w-5 h-5" />
                   </button>
                 </Link>
                 <Link href="/dashboard">
                   <button className="w-full text-gray-400 hover:text-gray-600 text-sm py-2 transition-colors">
-                    View Physician Dashboard →
+                    {t.intake.viewDashboard}
                   </button>
                 </Link>
               </motion.div>

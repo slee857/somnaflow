@@ -4,41 +4,16 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { useLanguage } from "@/lib/i18n";
 
-const medications = [
-  {
-    id: "s1",
-    name: "Formula S1",
-    dose: "Ramelteon 8mg",
-    tag: "Best for: Trouble falling asleep",
-    mechanism: "Melatonin receptor agonist — resets your circadian rhythm without sedation.",
-    image: "https://images.unsplash.com/photo-1550572017-edd951b55104?w=400&q=80",
-    badges: ["Non-Addictive", "No Grogginess", "Circadian Support"],
-    benefits: [
-      "Non-addictive — no dependency risk",
-      "No next-day grogginess",
-      "Safe for long-term use",
-      "Works with your body's natural clock",
-    ],
-  },
-  {
-    id: "d1",
-    name: "Formula D1",
-    dose: "Daridorexant 25mg",
-    tag: "Best for: Waking up at night",
-    mechanism: "Dual orexin receptor antagonist — blocks the wakefulness signal so you stay asleep.",
-    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80",
-    badges: ["Non-Addictive", "Overnight Delivery", "Stay Asleep"],
-    benefits: [
-      "Non-addictive — no controlled substance",
-      "Zero morning hangover effect",
-      "FDA-approved in 2023",
-      "Targets root cause, not symptoms",
-    ],
-  },
+const medImages = [
+  "https://images.unsplash.com/photo-1550572017-edd951b55104?w=400&q=80",
+  "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80",
 ];
 
 export default function Medications() {
+  const { t } = useLanguage();
+
   return (
     <section id="medications" className="py-28 lg:py-36 bg-white border-t border-[#EBEBEB]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,20 +25,20 @@ export default function Medications() {
           className="text-center mb-16"
         >
           <p className="text-[#A3A3A3] font-medium text-xs uppercase tracking-widest mb-4">
-            Our Medications
+            {t.medications.sectionLabel}
           </p>
           <h2 className="text-4xl lg:text-5xl font-black text-[#0A0A0A] tracking-tight mb-5">
-            No dependency. No grogginess.
+            {t.medications.title}
             <br />
-            <span className="text-[#D97706]">Just sleep.</span>
+            <span className="text-[#D97706]">{t.medications.titleHighlight}</span>
           </h2>
           <p className="text-[#525252] text-lg max-w-xl mx-auto">
-            We only prescribe non-addictive, modern sleep medications. No Ambien. No benzodiazepines. Ever.
+            {t.medications.subtitle}
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-4xl mx-auto">
-          {medications.map((med, index) => (
+          {t.medications.items.map((med, index) => (
             <motion.div
               key={med.id}
               initial={{ opacity: 0, y: 24 }}
@@ -75,7 +50,7 @@ export default function Medications() {
               {/* Image */}
               <div className="relative aspect-4/3 w-full overflow-hidden bg-amber-50/30">
                 <Image
-                  src={med.image}
+                  src={medImages[index]}
                   alt={med.name}
                   fill
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.04]"
@@ -134,11 +109,11 @@ export default function Medications() {
           className="text-center mt-12"
         >
           <p className="text-[#A3A3A3] text-sm mb-6">
-            Your physician selects the right formula based on your sleep profile. No guessing.
+            {t.medications.physicianNote}
           </p>
           <Link href="/intake">
             <button className="bg-[#D97706] hover:bg-[#B45309] text-white font-semibold px-8 py-4 rounded-full text-base transition-colors">
-              Get Your Prescription — Start Tonight
+              {t.medications.cta}
             </button>
           </Link>
         </motion.div>
